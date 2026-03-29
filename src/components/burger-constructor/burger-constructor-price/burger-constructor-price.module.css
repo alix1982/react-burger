@@ -1,0 +1,17 @@
+.finalPrice {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 40px;
+}
+
+.price {
+  opacity: 1;
+}
+
+@media screen and (width <= 1000px) {
+  .finalPrice {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

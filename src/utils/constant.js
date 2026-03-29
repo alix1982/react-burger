@@ -1,4 +1,24 @@
-export const ingredients = [
+import burger from '../assets/burgerDefault.svg';
+
+export const REACT_APP_BASE_URL = 'https://new-stellarburgers.education-services.ru/api';
+
+export const BUN_DEFAULT = [
+  {
+    _id: '0',
+    name: 'Выберете булку',
+    type: 'bunDefault',
+    proteins: 0,
+    fat: 0,
+    carbohydrates: 0,
+    calories: 0,
+    price: 0,
+    image: burger,
+    image_mobile: '',
+    image_large: '',
+  },
+];
+
+export const ingredientsMock = [
   {
     _id: '60666c42cc7b410027a1a9b1',
     name: 'Краторная булка N-200i',
@@ -197,7 +217,7 @@ export const ingredients = [
   },
   {
     _id: '60666c42cc7b410027a1a9b2',
-    name: 'Флюоресцентная булка R2-D3',
+    name: 'Флюоресцентная булка R2-D3 Флюоресцентная булка R2-D3Флюоресцентная булка R2-D3',
     type: 'bun',
     proteins: 44,
     fat: 26,

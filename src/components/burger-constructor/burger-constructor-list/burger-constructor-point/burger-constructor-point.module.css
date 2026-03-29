@@ -1,0 +1,123 @@
+.point {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 150px;
+  overflow: hidden;
+  cursor: move;
+  transition: all 0.2s ease;
+}
+
+.point:hover {
+  border-color: #4c4cff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+}
+
+.dragged {
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  transform: scale(1.05);
+  opacity: 0.5;
+}
+
+.dropTarget {
+  background-color: #8585ad;
+}
+
+.changed {
+  outline: 2px solid #4c4cff;
+  outline-offset: 2px;
+}
+
+.button {
+  padding: 0;
+  color: #fff;
+  background-color: transparent;
+  border: none;
+}
+
+.buttonNone {
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  margin: 0;
+}
+
+.pointButton {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  width: calc(100% - 32px - 32px - 32px);
+  height: calc(80px - 16px - 16px);
+  padding: 16px 32px;
+  color: #fff;
+  background-color: #1c1c21;
+  border: none;
+  border-radius: 40px;
+}
+
+.point:last-child .pointButton {
+  border-radius: 40px 40px 88px 88px;
+  cursor: pointer;
+}
+
+.point:first-child .pointButton {
+  border-radius: 88px 88px 40px 40px;
+  cursor: pointer;
+}
+
+.pointContent {
+  width: 100%;
+}
+
+.img {
+  width: 80px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.pointButton_content {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.name {
+  align-self: flex-start;
+  height: 50px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.constructorElement img {
+  display: none;
+}
+
+.constructorElement .constructor-element__price {
+  display: none;
+}
+
+@media screen and (width <= 1000px) {
+  .pointButton {
+    height: calc(120px - 16px - 16px);
+  }
+
+  .pointButton_content {
+    flex-direction: column;
+  }
+
+  .name {
+    height: 50px;
+  }
+}
