@@ -1,6 +1,5 @@
-// import iconSuccessfully from '@/assets/modalSuccessfully.svg';
-
 import styles from './ingredient-details.module.css';
+
 export const IngredientDetails = ({ ingriedient }) => {
   return (
     <article className={`${styles.modal_ingriedient}`}>
@@ -42,15 +41,6 @@ export const IngredientDetails = ({ ingriedient }) => {
           </span>
         </p>
       </div>
-
-      {/* <p className={`text text_type_digits-large pt-15 pb-8`}>{ingriedient}</p> */}
-      {/* <p className={`text text_type_main-medium pb-15`}>идентификатор заказа</p> */}
-      {/* <p className={`${styles.icon}`}>
-        <CheckMarkIcon type="primary" />
-      </p> */}
-      {/* <p className={`text text_type_main-default text_color_inactive pb-15`}>
-        Дождитесь готовности на орбитальной станции
-      </p> */}
     </article>
   );
 };

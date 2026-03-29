@@ -10,14 +10,12 @@ export const BurgerIngredientPoint = ({
   setIngriedientsUser,
 }) => {
   const handleAddIngriedientsBurger = () => {
-    console.log('addIngriedeint');
     if (ingredient.type !== 'bun') {
       setIngriedientsUser([...ingriedientsUser, ingredient]);
     } else {
       setIngriedientsUser([ingredient, ...ingriedientsUser.slice(1)]);
     }
   };
-  // console.log(ingredient);
   return (
     <li className={styles.point}>
       <button className={styles.pointButton} onClick={handleAddIngriedientsBurger}>

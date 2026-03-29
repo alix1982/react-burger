@@ -1,7 +1,3 @@
-/* .modal_ingriedient p,h2 {
-  margin: 0;
-} */
-
 .modal_ingriedient {
   display: flex;
   flex-direction: column;

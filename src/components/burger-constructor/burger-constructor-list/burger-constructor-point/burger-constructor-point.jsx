@@ -1,22 +1,19 @@
 import {
   ConstructorElement,
-  // DeleteIcon,
   DragIcon,
-  // LockIcon,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 
-// import { Price } from '@/share/price';
 import { Modal } from '@/components/modal/modal';
 import { IngredientDetails } from '@/components/modal/modal-content/ingredient-details';
 
 import styles from './burger-constructor-point.module.css';
 
 export const BurgerConstructorPoint = ({
+  index,
   ingredient,
   ingriedientsUser,
   setIngriedientsUser,
-  index,
   onDragStart,
   onDrop,
   onDragOver,
@@ -28,9 +25,9 @@ export const BurgerConstructorPoint = ({
 
   const handleOnIngriedients = () => {
     setIsModalOpenIngriedient(true);
-    // console.log('оформили');
   };
-  const handleDeleteIngredient = () => {
+  const handleDeleteIngredient = (e) => {
+    e.stopPropagation();
     const newIngredients = [...ingriedientsUser];
     newIngredients.splice(index, 1);
     setIngriedientsUser(newIngredients);
@@ -79,34 +76,6 @@ export const BurgerConstructorPoint = ({
           }
         />
       </div>
-      {/* <div className={styles.pointButton}>
-        {ingredient.type !== 'bunDefault' && (
-          <img
-            className={styles.img}
-            src={ingredient.image_mobile ? ingredient.image_mobile : ingredient.image}
-            alt={ingredient.name}
-          />
-        )}
-        <div className={styles.pointButton_content}>
-          <p className={`text text_type_main-default ${styles.name}`}>
-            {ingredient.name}
-          </p>
-          <Price
-            price={ingredient.type === 'bunDefault' ? '' : ingredient.price}
-            className={`text text_type_digits-default ${styles.price}`}
-            typeIcon={'primary'}
-          />
-        </div>
-        {isDraggable ? (
-          <button className={styles.button} onClick={handleDeleteIngredient}>
-            <DeleteIcon type="primary" />
-          </button>
-        ) : (
-          <button className={styles.button} disabled>
-            <LockIcon type="secondary" />
-          </button>
-        )}
-      </div> */}
       <Modal
         heading={'Детали ингредиента'}
         isOpen={isModalOpenIngriedient}

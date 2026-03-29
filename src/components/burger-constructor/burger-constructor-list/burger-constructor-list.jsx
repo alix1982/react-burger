@@ -5,9 +5,6 @@ import { BurgerConstructorPoint } from './burger-constructor-point/burger-constr
 import styles from './burger-constructor-list.module.css';
 
 export const BurgerConstructorList = ({ ingriedientsUser, setIngriedientsUser }) => {
-  // console.log(ingriedientsUser);
-  // console.log(ingredients);
-
   const [draggedIndex, setDraggedIndex] = useState(null);
   const [dropTargetIndex, setDropTargetIndex] = useState(null); // Индекс зоны сброса
   const [changedItems, setChangedItems] = useState([]); // Массив изменённых элементов
@@ -27,7 +24,6 @@ export const BurgerConstructorList = ({ ingriedientsUser, setIngriedientsUser })
 
   // Обработчик сброса элемента
   const handleDrop = (dropIndex) => {
-    console.log('DaD');
     if (draggedIndex === null || draggedIndex === dropIndex || dropIndex === 0) return;
 
     // Создаём новый массив с перемещённым элементом
@@ -55,13 +51,6 @@ export const BurgerConstructorList = ({ ingriedientsUser, setIngriedientsUser })
 
   return (
     <>
-      {/* <h1 className={`text text_type_main-medium ${styles.heading}`}>
-        {ingredients[0].type === 'bun'
-          ? 'Булки'
-          : ingredients[0].type === 'main'
-            ? 'Начинка'
-            : 'Соусы'}
-      </h1> */}
       <ul
         className={`custom-scroll ${styles.list}`}
         onDragOver={(e) => e.preventDefault()} // Разрешаем сброс на уровне списка

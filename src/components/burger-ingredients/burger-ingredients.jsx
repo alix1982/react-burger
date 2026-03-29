@@ -10,7 +10,6 @@ export const BurgerIngredients = ({
   ingriedientsUser,
   setIngriedientsUser,
 }) => {
-  // console.log(ingredients);
   const [menuPoint, setMenuPoint] = useState('bun');
   const [ingredientsBun, setIngredientsBun] = useState([]);
   const [ingredientsMain, setIngredientsMain] = useState([]);

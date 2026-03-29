@@ -17,7 +17,6 @@ export const App = () => {
     try {
       const response = await getIngriedients();
       setIngriedients(response.data.data);
-      // console.log(response.data);
       return response.data;
     } catch (error) {
       console.error('Ошибка загрузки:', error);
@@ -27,10 +26,8 @@ export const App = () => {
 
   useEffect(() => {
     startTransition(() => fetchIngriedients());
-    // fetchIngriedients();
   }, []);
 
-  // console.log(ingriedientsUser);
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -48,7 +45,6 @@ export const App = () => {
           />
         )}
         <BurgerConstructor
-          ingredients={ingriedients}
           ingriedientsUser={ingriedientsUser}
           setIngriedientsUser={setIngriedientsUser}
         />

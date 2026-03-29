@@ -21,7 +21,6 @@ export const BurgerConstructorFinalPrice = ({ ingriedientsUser }) => {
 
   const handleOrder = () => {
     setIsModalOpenOrder(true);
-    // console.log('оформили');
   };
 
   return (
