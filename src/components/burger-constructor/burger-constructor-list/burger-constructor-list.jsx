@@ -51,46 +51,65 @@ export const BurgerConstructorList = ({ ingriedientsUser, setIngriedientsUser })
 
   return (
     <>
+      {ingriedientsUser?.length > 0 &&
+        (ingriedientsUser[0].type === 'bun' ||
+          ingriedientsUser[0].type === 'bunDefault') && (
+          <BurgerConstructorPoint
+            index={0}
+            ingredient={ingriedientsUser[0]}
+            ingriedientsUser={ingriedientsUser}
+            setIngriedientsUser={setIngriedientsUser}
+            onDragStart={handleDragStart}
+            onDragOver={handleDragOver} // Передаём обработчик для подсветки зоны сброса
+            isDragged={draggedIndex === 0}
+            isDropTarget={dropTargetIndex === 0} // Передаём флаг зоны сброса
+            isChanged={changedItems.includes(0)} // Передаём флаг изменения
+          />
+        )}
       <ul
         className={`custom-scroll ${styles.list}`}
         onDragOver={(e) => e.preventDefault()} // Разрешаем сброс на уровне списка
       >
         {ingriedientsUser?.length > 0 ? (
-          <>
-            {ingriedientsUser.map((ingredient, index) => (
-              <BurgerConstructorPoint
-                key={index}
-                index={index}
-                ingredient={ingredient}
-                ingriedientsUser={ingriedientsUser}
-                setIngriedientsUser={setIngriedientsUser}
-                onDragStart={handleDragStart}
-                onDrop={handleDrop}
-                onDragOver={handleDragOver} // Передаём обработчик для подсветки зоны сброса
-                isDragged={draggedIndex === index}
-                isDropTarget={dropTargetIndex === index} // Передаём флаг зоны сброса
-                isChanged={changedItems.includes(index)} // Передаём флаг изменения
-              />
-            ))}
-            {(ingriedientsUser[0].type === 'bun' ||
-              ingriedientsUser[0].type === 'bunDefault') && (
-              <BurgerConstructorPoint
-                index={ingriedientsUser.length}
-                ingredient={ingriedientsUser[0]}
-                ingriedientsUser={ingriedientsUser}
-                setIngriedientsUser={setIngriedientsUser}
-                onDragStart={handleDragStart}
-                onDragOver={handleDragOver} // Передаём обработчик для подсветки зоны сброса
-                isDragged={draggedIndex === ingriedientsUser.length}
-                isDropTarget={dropTargetIndex === ingriedientsUser.length} // Передаём флаг зоны сброса
-                isChanged={changedItems.includes(ingriedientsUser.length)} // Передаём флаг изменения
-              />
-            )}
-          </>
+          ingriedientsUser.map((ingredient, index) => {
+            if (index > 0) {
+              return (
+                <li key={index}>
+                  <BurgerConstructorPoint
+                    index={index}
+                    ingredient={ingredient}
+                    ingriedientsUser={ingriedientsUser}
+                    setIngriedientsUser={setIngriedientsUser}
+                    onDragStart={handleDragStart}
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver} // Передаём обработчик для подсветки зоны сброса
+                    isDragged={draggedIndex === index}
+                    isDropTarget={dropTargetIndex === index} // Передаём флаг зоны сброса
+                    isChanged={changedItems.includes(index)} // Передаём флаг изменения
+                  />
+                </li>
+              );
+            }
+          })
         ) : (
-          <p className={`text text_type_main-default`}>Выберете ингридиенты</p>
+          <p className={`text text_type_main-default`}>Добавьте ингридиенты</p>
         )}
       </ul>
+      {ingriedientsUser?.length > 0 &&
+        (ingriedientsUser[0].type === 'bun' ||
+          ingriedientsUser[0].type === 'bunDefault') && (
+          <BurgerConstructorPoint
+            index={ingriedientsUser.length}
+            ingredient={ingriedientsUser[0]}
+            ingriedientsUser={ingriedientsUser}
+            setIngriedientsUser={setIngriedientsUser}
+            onDragStart={handleDragStart}
+            onDragOver={handleDragOver} // Передаём обработчик для подсветки зоны сброса
+            isDragged={draggedIndex === ingriedientsUser.length}
+            isDropTarget={dropTargetIndex === ingriedientsUser.length} // Передаём флаг зоны сброса
+            isChanged={changedItems.includes(ingriedientsUser.length)} // Передаём флаг изменения
+          />
+        )}
     </>
   );
 };

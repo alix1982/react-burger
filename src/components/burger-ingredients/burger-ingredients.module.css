@@ -21,3 +21,7 @@
   text-align: center;
   list-style-type: none;
 }
+
+.content {
+  overflow: scroll;
+}

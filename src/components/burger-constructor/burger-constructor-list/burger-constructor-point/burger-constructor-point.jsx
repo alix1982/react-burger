@@ -35,7 +35,7 @@ export const BurgerConstructorPoint = ({
   const isDraggable = ingredient.type !== 'bun' && ingredient.type !== 'bunDefault';
 
   return (
-    <li
+    <div
       id={'burgerConstructorPoint'}
       className={`
         ${styles.point}
@@ -67,7 +67,24 @@ export const BurgerConstructorPoint = ({
           handleClose={handleDeleteIngredient}
           isLocked={index === 0 || index === ingriedientsUser.length}
           price={ingredient.price}
-          text={ingredient.name}
+          text={
+            // ingredient.name
+            index === 0 ? (
+              <>
+                {ingredient.name}
+                <br />
+                (верх)
+              </>
+            ) : index === ingriedientsUser.length ? (
+              <>
+                {ingredient.name}
+                <br />
+                (низ)
+              </>
+            ) : (
+              ingredient.name
+            )
+          }
           thumbnail={
             ingredient.image_mobile ? ingredient.image_mobile : ingredient.image
           }
@@ -84,6 +101,6 @@ export const BurgerConstructorPoint = ({
       >
         <IngredientDetails ingriedient={ingredient} />
       </Modal>
-    </li>
+    </div>
   );
 };
