@@ -4,10 +4,14 @@ import { useEffect, useState } from 'react';
 import { Modal } from '@/components/modal/modal';
 import { OrderDetails } from '@/components/modal/modal-content/order-details';
 import { Price } from '@/share/price';
+import { BUN_DEFAULT } from '@/utils/constant';
 
 import styles from './burger-constructor-price.module.css';
 
-export const BurgerConstructorFinalPrice = ({ ingriedientsUser }) => {
+export const BurgerConstructorFinalPrice = ({
+  ingriedientsUser,
+  setIngriedientsUser,
+}) => {
   const [finalPrice, setFinalPrice] = useState(0);
   const [isModalOpenOrder, setIsModalOpenOrder] = useState(false);
 
@@ -21,6 +25,7 @@ export const BurgerConstructorFinalPrice = ({ ingriedientsUser }) => {
 
   const handleOrder = () => {
     setIsModalOpenOrder(true);
+    setIngriedientsUser(BUN_DEFAULT);
   };
 
   return (

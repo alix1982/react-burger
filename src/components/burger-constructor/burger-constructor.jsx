@@ -10,7 +10,10 @@ export const BurgerConstructor = ({ ingriedientsUser, setIngriedientsUser }) => 
         ingriedientsUser={ingriedientsUser}
         setIngriedientsUser={setIngriedientsUser}
       />
-      <BurgerConstructorFinalPrice ingriedientsUser={ingriedientsUser} />
+      <BurgerConstructorFinalPrice
+        ingriedientsUser={ingriedientsUser}
+        setIngriedientsUser={setIngriedientsUser}
+      />
     </section>
   );
 };

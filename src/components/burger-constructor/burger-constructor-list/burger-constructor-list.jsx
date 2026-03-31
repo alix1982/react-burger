@@ -70,11 +70,11 @@ export const BurgerConstructorList = ({ ingriedientsUser, setIngriedientsUser })
         className={`custom-scroll ${styles.list}`}
         onDragOver={(e) => e.preventDefault()} // Разрешаем сброс на уровне списка
       >
-        {ingriedientsUser?.length > 0 ? (
+        {ingriedientsUser?.length > 1 ? (
           ingriedientsUser.map((ingredient, index) => {
             if (index > 0) {
               return (
-                <li key={index}>
+                <li key={index} className={styles.listPoint}>
                   <BurgerConstructorPoint
                     index={index}
                     ingredient={ingredient}

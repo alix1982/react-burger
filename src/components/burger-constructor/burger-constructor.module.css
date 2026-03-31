@@ -1,7 +1,7 @@
 .burger_constructor {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 16px;
   width: calc(50% - 20px);
   max-width: 600px;
   padding-bottom: 20px;
