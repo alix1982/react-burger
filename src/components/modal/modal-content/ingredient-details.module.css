@@ -1,0 +1,24 @@
+.modal_ingriedient {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.img {
+  width: calc(100% - 60px - 60px);
+  padding: 0 60px;
+  object-fit: cover;
+}
+
+.ingriedient_data {
+  display: flex;
+  gap: 20px;
+}
+
+.ingriedient_calories {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}

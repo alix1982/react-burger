@@ -1,11 +1,33 @@
+import { Preloader } from '@krgaa/react-developer-burger-ui-components';
+import { useEffect, useState, useTransition } from 'react';
+
+import { getIngriedients } from '@/store/apiSlice';
+import { BUN_DEFAULT } from '@/utils/constant';
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
-import { ingredients } from '@utils/ingredients';
 
 import styles from './app.module.css';
 
 export const App = () => {
+  const [ingriedients, setIngriedients] = useState([]); // в redux
+  const [ingriedientsUser, setIngriedientsUser] = useState(BUN_DEFAULT); // в redux
+  const [isPending, startTransition] = useTransition();
+  async function fetchIngriedients() {
+    try {
+      const response = await getIngriedients();
+      setIngriedients(response.data.data);
+      return response.data;
+    } catch (error) {
+      console.error('Ошибка загрузки:', error);
+      throw error;
+    }
+  }
+
+  useEffect(() => {
+    startTransition(() => fetchIngriedients());
+  }, []);
+
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -13,8 +35,19 @@ export const App = () => {
         Соберите бургер
       </h1>
       <main className={`${styles.main} pl-5 pr-5`}>
-        <BurgerIngredients ingredients={ingredients} />
-        <BurgerConstructor ingredients={ingredients} />
+        {isPending ? (
+          <Preloader />
+        ) : (
+          <BurgerIngredients
+            ingredients={ingriedients}
+            ingriedientsUser={ingriedientsUser}
+            setIngriedientsUser={setIngriedientsUser}
+          />
+        )}
+        <BurgerConstructor
+          ingriedientsUser={ingriedientsUser}
+          setIngriedientsUser={setIngriedientsUser}
+        />
       </main>
     </div>
   );

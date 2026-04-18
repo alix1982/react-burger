@@ -1,0 +1,61 @@
+.point {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 150px;
+  min-height: 80px;
+  overflow: hidden;
+  cursor: move;
+  transition: all 0.2s ease;
+}
+
+.point:hover {
+  border-color: #4c4cff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+}
+
+.dragged {
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  transform: scale(1.05);
+  opacity: 0.5;
+}
+
+.dropTarget {
+  background-color: #8585ad;
+}
+
+.changed {
+  outline: 2px solid #4c4cff;
+  outline-offset: 2px;
+}
+
+.button {
+  padding: 0;
+  color: #fff;
+  background-color: transparent;
+  border: none;
+}
+
+.buttonNone {
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  margin: 0;
+}
+
+.pointContent {
+  width: 100%;
+  height: max-content;
+  height: 100%;
+}
+
+.constructorElement img {
+  display: none;
+}
+
+.constructorElement .constructor-element__price {
+  display: none;
+}

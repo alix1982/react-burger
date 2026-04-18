@@ -1,0 +1,26 @@
+.dialog {
+  width: 50%;
+  min-width: 400px;
+  max-width: 720px;
+  margin: auto;
+  padding: 40px 40px 60px;
+  color: #f2f2f3;
+  background-color: #1c1c21;
+  border: none;
+  border-radius: 40px;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closeButton {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  color: #f2f2f3;
+  background-color: #1c1c21;
+  border: none;
+}

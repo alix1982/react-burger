@@ -1,0 +1,17 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  opacity: 0.5;
+}
+
+.open {
+  display: block;
+}
+
+.close {
+  display: none;
+}
