@@ -18,6 +18,10 @@ export const BUN_DEFAULT = [
   },
 ];
 
+export const ERROR_MESSAGE_GET_INGRIEDIENTS = 'Ошибка запроса ингридиентов';
+
+export const ERROR_MESSAGE_POST_ORDER_BURGER = 'Ошибка создания заказа';
+
 export const ingredientsMock = [
   {
     _id: '60666c42cc7b410027a1a9b1',

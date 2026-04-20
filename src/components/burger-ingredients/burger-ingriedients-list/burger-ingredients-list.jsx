@@ -2,12 +2,7 @@ import { BurgerIngredientPoint } from './burger-ingriedients-point/burger-ingrie
 
 import styles from './burger-ingredients-list.module.css';
 
-export const BurgerIngredientsList = ({
-  ref,
-  ingredients,
-  ingriedientsUser,
-  setIngriedientsUser,
-}) => {
+export const BurgerIngredientsList = ({ ref, ingredients }) => {
   return (
     <>
       <h1 className={`text text_type_main-medium ${styles.heading}`} ref={ref}>
@@ -20,16 +15,15 @@ export const BurgerIngredientsList = ({
       </h1>
       <ul className={styles.list}>
         {ingredients?.length > 0 ? (
-          ingredients.map((ingredient) => (
+          ingredients.map((ingredient, index) => (
             <BurgerIngredientPoint
               key={ingredient._id}
+              index={index}
               ingredient={ingredient}
-              ingriedientsUser={ingriedientsUser}
-              setIngriedientsUser={setIngriedientsUser}
             />
           ))
         ) : (
-          <p className={`text text_type_main-default`}>Нет доступных булок</p>
+          <p className={`text text_type_main-default`}>Нет доступных ингридиентов</p>
         )}
       </ul>
     </>

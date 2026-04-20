@@ -1,29 +1,67 @@
 import { Counter } from '@krgaa/react-developer-burger-ui-components';
+import { useEffect, useState } from 'react';
+import { useDrag } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Price } from '@/share/price';
+import {
+  addIngriedientsBurger,
+  SingriedientsUser,
+} from '@/store/constructorSlice/constructorSlice';
 
 import styles from './burger-ingriedients-point.module.css';
 
-export const BurgerIngredientPoint = ({
-  ingredient,
-  ingriedientsUser,
-  setIngriedientsUser,
-}) => {
-  const handleAddIngriedientsBurger = () => {
+export const BurgerIngredientPoint = ({ ingredient }) => {
+  const dispatch = useDispatch();
+  const ingriedientsUser = useSelector(SingriedientsUser);
+
+  const { _id, name, price, image, type } = ingredient;
+  // const isDraggable = type !== 'bun' && type !== 'bunDefault';
+
+  const [{ isDragging }, dragIngridientRef] = useDrag({
+    type: 'ingridient',
+    item: { _id, name, price, image, type },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+    // canDrag: isDraggable,
+  });
+
+  const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
     if (ingredient.type !== 'bun') {
-      setIngriedientsUser([...ingriedientsUser, ingredient]);
+      setCounter(ingriedientsUser.filter((item) => item._id === ingredient._id).length);
     } else {
-      setIngriedientsUser([ingredient, ...ingriedientsUser.slice(1)]);
+      setCounter(
+        ingriedientsUser.filter((item) => item._id === ingredient._id).length * 2
+      );
     }
-  };
+  }, [ingriedientsUser]);
+
+  // const handleAddIngriedientsBurger = () => {
+  //   // dispatch(addIngriedientsBurger)
+  //   if (ingredient.type !== 'bun') {
+  //     dispatch(setIngriedientsUser([...ingriedientsUser, ingredient]));
+  //     // setIngriedientsUser([...ingriedientsUser, ingredient]);
+  //   } else {
+  //     dispatch(setIngriedientsUser([ingredient, ...ingriedientsUser.slice(1)]));
+
+  //     // setIngriedientsUser([ingredient, ...ingriedientsUser.slice(1)]);
+  //   }
+  // };
+
   return (
-    <li className={styles.point}>
-      <button className={styles.pointButton} onClick={handleAddIngriedientsBurger}>
+    <li
+      className={`${styles.point} ${isDragging ? styles.pointDrag : ''}`}
+      ref={dragIngridientRef}
+    >
+      <button
+        className={styles.pointButton}
+        onClick={() => dispatch(addIngriedientsBurger({ ingredient }))}
+      >
         <img className={styles.img} src={ingredient.image} />
-        <Counter
-          count={ingriedientsUser.filter((item) => item._id === ingredient._id).length}
-          size="default"
-        />
+        {counter > 0 && <Counter count={counter} size="default" />}
         <Price
           price={ingredient.price}
           className={`text text_type_digits-default ${styles.price}`}

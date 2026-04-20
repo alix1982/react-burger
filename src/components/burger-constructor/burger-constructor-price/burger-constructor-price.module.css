@@ -9,6 +9,10 @@
   opacity: 1;
 }
 
+.error {
+  color: red;
+}
+
 @media screen and (width <= 1000px) {
   .finalPrice {
     flex-direction: column;

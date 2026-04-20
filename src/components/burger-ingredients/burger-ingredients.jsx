@@ -1,15 +1,16 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { SerrorMes, Singriedients } from '@/store/ingriedientsSlice/ingriedientsSlice';
 
 import { BurgerIngredientsList } from './burger-ingriedients-list/burger-ingredients-list';
 
 import styles from './burger-ingredients.module.css';
 
-export const BurgerIngredients = ({
-  ingredients,
-  ingriedientsUser,
-  setIngriedientsUser,
-}) => {
+export const BurgerIngredients = () => {
+  const ingriedients = useSelector(Singriedients);
+  const errorGetIngridients = useSelector(SerrorMes);
   const [menuPoint, setMenuPoint] = useState('bun');
   const [ingredientsBun, setIngredientsBun] = useState([]);
   const [ingredientsMain, setIngredientsMain] = useState([]);
@@ -22,10 +23,12 @@ export const BurgerIngredients = ({
   };
 
   useEffect(() => {
-    setIngredientsBun(ingredients.filter((item) => item.type === 'bun'));
-    setIngredientsMain(ingredients.filter((item) => item.type === 'main'));
-    setIngredientsSouce(ingredients.filter((item) => item.type === 'sauce'));
-  }, [ingredients]);
+    if (Array.isArray(ingriedients) && ingriedients.length > 0) {
+      setIngredientsBun(ingriedients.filter((item) => item.type === 'bun'));
+      setIngredientsMain(ingriedients.filter((item) => item.type === 'main'));
+      setIngredientsSouce(ingriedients.filter((item) => item.type === 'sauce'));
+    }
+  }, [ingriedients]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,7 +72,7 @@ export const BurgerIngredients = ({
       }
     };
   }, [scrolls]);
-  console.log(menuPoint);
+
   return (
     <section className={styles.burger_ingredients}>
       <nav className={styles.burger_nav}>
@@ -115,26 +118,15 @@ export const BurgerIngredients = ({
           </Tab>
         </ul>
       </nav>
-      <article className={`custom-scroll ${styles.content}`} ref={contentIngridients}>
-        <BurgerIngredientsList
-          ref={scrolls.bun}
-          ingredients={ingredientsBun}
-          ingriedientsUser={ingriedientsUser}
-          setIngriedientsUser={setIngriedientsUser}
-        />
-        <BurgerIngredientsList
-          ref={scrolls.souce}
-          ingredients={ingredientsSouce}
-          ingriedientsUser={ingriedientsUser}
-          setIngriedientsUser={setIngriedientsUser}
-        />
-        <BurgerIngredientsList
-          ref={scrolls.main}
-          ingredients={ingredientsMain}
-          ingriedientsUser={ingriedientsUser}
-          setIngriedientsUser={setIngriedientsUser}
-        />
-      </article>
+      {errorGetIngridients === '' ? (
+        <article className={`custom-scroll ${styles.content}`} ref={contentIngridients}>
+          <BurgerIngredientsList ref={scrolls.bun} ingredients={ingredientsBun} />
+          <BurgerIngredientsList ref={scrolls.souce} ingredients={ingredientsSouce} />
+          <BurgerIngredientsList ref={scrolls.main} ingredients={ingredientsMain} />
+        </article>
+      ) : (
+        <p>{errorGetIngridients}</p>
+      )}
     </section>
   );
 };
