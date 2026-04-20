@@ -1,6 +1,7 @@
 import {
   // createAsyncThunk,
   createSlice,
+  nanoid,
 } from '@reduxjs/toolkit';
 
 import { BUN_DEFAULT } from '@/utils/constant';
@@ -13,26 +14,49 @@ export const constructorSlice = createSlice({
     errorMes: '',
   },
   reducers: {
-    setIngriedientsUser: (state, action) => {
-      state.ingriedientsUser = action.payload;
+    setIngriedientsUser: {
+      reducer: (state, action) => {
+        // console.log(action);
+        const ingredients = [...action.payload];
+        if (ingredients.length > 2) {
+          state.ingriedientsUser = ingredients.filter(
+            (item) => item.type !== 'ingriedientDefault'
+          );
+        } else {
+          state.ingriedientsUser = ingredients;
+        }
+      },
+      prepare: (ingriedients) => {
+        // console.log(ingriedients);
+        const newIngriedients = ingriedients.map((ingriedient) => {
+          const newIngriedient = {
+            ...ingriedient,
+            uuid: nanoid(),
+          };
+          return newIngriedient;
+        });
+        return { payload: newIngriedients };
+      },
     },
-    addIngriedientsBurger: (state, action) => {
-      console.log('add');
-      const { ingredient } = action.payload;
-      if (ingredient.type !== 'bun') {
-        state.ingriedientsUser = [...state.ingriedientsUser, ingredient];
-      } else {
-        state.ingriedientsUser = [ingredient, ...state.ingriedientsUser.slice(1)];
-      }
-    },
+    // addIngriedientsBurger: (state, action) => {
+    //   const { ingredient } = action.payload;
+    //   if (ingredient.type !== 'bun') {
+    //     state.ingriedientsUser = [...state.ingriedientsUser, ingredient];
+    //   } else {
+    //     state.ingriedientsUser = [ingredient, ...state.ingriedientsUser.slice(1)];
+    //   }
+    // },
     deleteIngridient: (state, action) => {
-      const { index, e } = action.payload;
-      e.stopPropagation();
+      const { index } = action.payload;
       const newIngredients = [...state.ingriedientsUser];
       newIngredients.splice(index, 1);
+      const ingriedient = newIngredients.find(
+        (item) => item.type === 'main' || item.type === 'sauce'
+      );
+      if (!ingriedient) {
+        newIngredients.splice(index, 0, BUN_DEFAULT[1]);
+      }
       state.ingriedientsUser = newIngredients;
-      // dispatch(setIngriedientsUser(newIngredients));
-      // state.ingridientCard = action.payload;
     },
   },
   selectors: {
@@ -42,8 +66,7 @@ export const constructorSlice = createSlice({
   },
 });
 
-export const { setIngriedientsUser, addIngriedientsBurger, deleteIngridient } =
-  constructorSlice.actions;
+export const { setIngriedientsUser, deleteIngridient } = constructorSlice.actions;
 
 export const { SingriedientsUser, SisLoadingConstructor, SerrorMes } =
   constructorSlice.selectors;

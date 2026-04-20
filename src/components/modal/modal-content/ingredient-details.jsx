@@ -1,10 +1,19 @@
+import { useSelector } from 'react-redux';
+
+import { SingriedientCard } from '@/store/modalSlice/modalSlice';
+
 import styles from './ingredient-details.module.css';
 
-export const IngredientDetails = ({ ingriedient }) => {
+export const IngredientDetails = () => {
+  const ingriedientCard = useSelector(SingriedientCard);
+  // console.log(ingriedientCard);
+  const { image, name, calories, proteins, fat, carbohydrates } = ingriedientCard;
+
+  console.log(ingriedientCard);
   return (
     <article className={`${styles.modal_ingriedient}`}>
-      <img className={`${styles.img} pr-10 pl-10 pb-4`} src={ingriedient.image} />
-      <p className={`text text_type_main-medium pb-8`}>{ingriedient.name}</p>
+      <img className={`${styles.img} pr-10 pl-10 pb-4`} src={image} />
+      <p className={`text text_type_main-medium pb-8`}>{name}</p>
       <div
         className={`text text_type_main-default text_color_inactive ${styles.ingriedient_data}`}
       >
@@ -13,7 +22,7 @@ export const IngredientDetails = ({ ingriedient }) => {
         >
           <span>Калории,ккал</span>
           <span className={`text text_type_digits-default text_color_inactive`}>
-            {ingriedient?.calories ? ingriedient?.calories : '-'}
+            {calories ? calories : '-'}
           </span>
         </p>
         <p
@@ -21,7 +30,7 @@ export const IngredientDetails = ({ ingriedient }) => {
         >
           <span>Белки, г</span>
           <span className={`text text_type_digits-default text_color_inactive`}>
-            {ingriedient?.proteins ? ingriedient?.proteins : '-'}
+            {proteins ? proteins : '-'}
           </span>
         </p>
         <p
@@ -29,7 +38,7 @@ export const IngredientDetails = ({ ingriedient }) => {
         >
           <span>Жиры, г</span>
           <span className={`text text_type_digits-default text_color_inactive`}>
-            {ingriedient?.fat ? ingriedient?.fat : '-'}
+            {fat ? fat : '-'}
           </span>
         </p>
         <p
@@ -37,7 +46,7 @@ export const IngredientDetails = ({ ingriedient }) => {
         >
           <span>Углеводы, г</span>
           <span className={`text text_type_digits-default text_color_inactive`}>
-            {ingriedient?.carbohydrates ? ingriedient?.carbohydrates : '-'}
+            {carbohydrates ? carbohydrates : '-'}
           </span>
         </p>
       </div>

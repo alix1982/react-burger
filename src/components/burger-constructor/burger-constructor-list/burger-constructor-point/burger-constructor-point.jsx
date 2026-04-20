@@ -3,31 +3,26 @@ import {
   DragIcon,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useCallback } from 'react';
-// import { useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Modal } from '@/components/modal/modal';
-import { IngredientDetails } from '@/components/modal/modal-content/ingredient-details';
 import {
   deleteIngridient,
   setIngriedientsUser,
   SingriedientsUser,
 } from '@/store/constructorSlice/constructorSlice';
-import { setIngridientModal, SingriedientModal } from '@/store/modalSlice/modalSlice';
+import { setIngridientModal } from '@/store/modalSlice/modalSlice';
 
 import styles from './burger-constructor-point.module.css';
 
 export const BurgerConstructorPoint = ({ index, ingredient }) => {
   const dispatch = useDispatch();
   const ingriedientsUser = useSelector(SingriedientsUser);
-  const ingridientModalOn = useSelector(SingriedientModal);
-  const { _id } = ingredient;
-  const isDraggable = ingredient.type !== 'bun' && ingredient.type !== 'bunDefault';
+  const { _id, type, price, name, image_mobile, image } = ingredient;
+  const isDraggable = type !== 'bun' && type !== 'bunDefault';
 
   const moveIngredientConstructor = useCallback(
     (dragIndex, hoverIndex) => {
-      console.log('moveIngredientConstructor');
       // Запрещаем перемещение булок
       if (dragIndex === 0 || dragIndex === ingriedientsUser.length) return;
 
@@ -39,7 +34,6 @@ export const BurgerConstructorPoint = ({ index, ingredient }) => {
       // Вставляем элемент в новую позицию (сохраняем булки на краях)
       newIngredients.splice(hoverIndex, 0, draggedItem);
       dispatch(setIngriedientsUser(newIngredients));
-      // setIngriedientsUser(newIngredients);
     },
     [ingriedientsUser]
   );
@@ -108,15 +102,30 @@ export const BurgerConstructorPoint = ({ index, ingredient }) => {
   );
 
   const handleOnIngriedients = () => {
-    dispatch(setIngridientModal(true));
+    dispatch(setIngridientModal({ isModalIngridient: true, ingredient }));
   };
-  // const handleDeleteIngredient = (e) => {
-  //   e.stopPropagation();
-  //   const newIngredients = [...ingriedientsUser];
-  //   newIngredients.splice(index, 1);
-  //   dispatch(setIngriedientsUser(newIngredients));
-  // };
-
+  const handleDeleteIngredient = (e) => {
+    e.stopPropagation();
+    dispatch(deleteIngridient({ index }));
+    // const newIngredients = [...ingriedientsUser];
+    // newIngredients.splice(index, 1);
+    // dispatch(setIngriedientsUser(newIngredients));
+  };
+  // if (ingredient.type === 'bun' || ingredient.type === 'bunDefault') {
+  //   return;
+  // }
+  if (type === 'ingriedientDefault') {
+    return (
+      <p
+        className={`text text_type_main-default ${styles.ingriedientDefault}`}
+        ref={combinedRef}
+      >
+        Добавьте ингридиенты
+      </p>
+    );
+  }
+  // console.log(ingredient);
+  // console.log(ingriedientsUser);
   return (
     <div id={'burgerConstructorPoint'} ref={combinedRef} className={`${styles.point}`}>
       {isDraggable ? (
@@ -128,22 +137,22 @@ export const BurgerConstructorPoint = ({ index, ingredient }) => {
       )}
       <div className={styles.pointContent} onClick={handleOnIngriedients}>
         <ConstructorElement
-          extraClass={ingredient.type === 'bunDefault' && styles.constructorElement}
+          extraClass={type === 'bunDefault' && styles.constructorElement}
           key={index}
-          handleClose={(e) => dispatch(deleteIngridient({ index, e }))}
+          handleClose={handleDeleteIngredient}
           isLocked={index === 0 || index === ingriedientsUser.length}
-          price={ingredient.price}
+          price={price}
           text={
             // ingredient.name
             index === 0 ? (
               <>
-                {ingredient.name}
+                {name}
                 <br />
                 (верх)
               </>
             ) : index === ingriedientsUser.length ? (
               <>
-                {ingredient.name}
+                {name}
                 <br />
                 (низ)
               </>
@@ -151,24 +160,12 @@ export const BurgerConstructorPoint = ({ index, ingredient }) => {
               ingredient.name
             )
           }
-          thumbnail={
-            ingredient.image_mobile ? ingredient.image_mobile : ingredient.image
-          }
+          thumbnail={image_mobile ? image_mobile : image}
           type={
             index === 0 ? 'top' : index === ingriedientsUser.length ? 'bottom' : 'normal'
           }
         />
       </div>
-      <Modal
-        heading={'Детали ингредиента'}
-        isOpen={ingridientModalOn}
-        onClose={() => {
-          dispatch(setIngridientModal(false));
-        }}
-        containerId={'burgerConstructorPoint'}
-      >
-        <IngredientDetails ingriedient={ingredient} />
-      </Modal>
     </div>
   );
 };

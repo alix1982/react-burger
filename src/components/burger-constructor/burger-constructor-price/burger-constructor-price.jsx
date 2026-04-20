@@ -39,8 +39,8 @@ export const BurgerConstructorFinalPrice = () => {
 
   const handleOrder = () => {
     dispatch(sendingOrder(ingriedientsUser))
-      .then(() => {
-        if (errorMes === '') {
+      .then((res) => {
+        if (!res.error) {
           dispatch(setOrderModal(true));
           dispatch(setIngriedientsUser(BUN_DEFAULT));
         }

@@ -1,26 +1,23 @@
 import { Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 import { useDrag } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Price } from '@/share/price';
-import {
-  addIngriedientsBurger,
-  SingriedientsUser,
-} from '@/store/constructorSlice/constructorSlice';
+import { SingriedientsUser } from '@/store/constructorSlice/constructorSlice';
 
 import styles from './burger-ingriedients-point.module.css';
 
 export const BurgerIngredientPoint = ({ ingredient }) => {
-  const dispatch = useDispatch();
   const ingriedientsUser = useSelector(SingriedientsUser);
 
-  const { _id, name, price, image, type } = ingredient;
+  // const { _id, name, price, image, type } = ingredient;
   // const isDraggable = type !== 'bun' && type !== 'bunDefault';
 
   const [{ isDragging }, dragIngridientRef] = useDrag({
     type: 'ingridient',
-    item: { _id, name, price, image, type },
+    // item: { _id, name, price, image, type },
+    item: ingredient,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -58,7 +55,7 @@ export const BurgerIngredientPoint = ({ ingredient }) => {
     >
       <button
         className={styles.pointButton}
-        onClick={() => dispatch(addIngriedientsBurger({ ingredient }))}
+        // onClick={() => dispatch(addIngriedientsBurger({ ingredient }))}
       >
         <img className={styles.img} src={ingredient.image} />
         {counter > 0 && <Counter count={counter} size="default" />}

@@ -38,7 +38,6 @@ export const orderSlice = createSlice({
         : ERROR_MESSAGE_POST_ORDER_BURGER;
     });
     builder.addCase(sendingOrder.fulfilled, (state, action) => {
-      console.log(action.payload);
       if (action.payload?.order?.number) {
         state.isLoading = false;
         state.errorMes = '';
