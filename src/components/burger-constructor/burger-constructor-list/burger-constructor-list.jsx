@@ -1,19 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { Modal } from '@/components/modal/modal';
-import { IngredientDetails } from '@/components/modal/modal-content/ingredient-details';
 import { SingriedientsUser } from '@/store/constructorSlice/constructorSlice';
-import { setIngridientModal, SingriedientModal } from '@/store/modalSlice/modalSlice';
-import { BUN_DEFAULT } from '@/utils/constant';
 
 import { BurgerConstructorPoint } from './burger-constructor-point/burger-constructor-point';
 
 import styles from './burger-constructor-list.module.css';
 
 export const BurgerConstructorList = () => {
-  const dispatch = useDispatch();
   const ingriedientsUser = useSelector(SingriedientsUser);
-  const ingridientModalOn = useSelector(SingriedientModal);
 
   return (
     <>
@@ -42,18 +36,6 @@ export const BurgerConstructorList = () => {
             ingredient={ingriedientsUser[0]}
           />
         )}
-      <Modal
-        heading={'Детали ингредиента'}
-        isOpen={ingridientModalOn}
-        onClose={() => {
-          dispatch(
-            setIngridientModal({ isModalIngridient: false, ingredient: BUN_DEFAULT[0] })
-          );
-        }}
-        containerId={'burgerConstructorPoint'}
-      >
-        <IngredientDetails />
-      </Modal>
     </>
   );
 };

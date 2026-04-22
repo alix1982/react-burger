@@ -11,7 +11,6 @@ import {
   setIngriedientsUser,
   SingriedientsUser,
 } from '@/store/constructorSlice/constructorSlice';
-import { setIngridientModal } from '@/store/modalSlice/modalSlice';
 
 import styles from './burger-constructor-point.module.css';
 
@@ -101,9 +100,6 @@ export const BurgerConstructorPoint = ({ index, ingredient }) => {
     [dragConstructorRef, dropConstructorRef]
   );
 
-  const handleOnIngriedients = () => {
-    dispatch(setIngridientModal({ isModalIngridient: true, ingredient }));
-  };
   const handleDeleteIngredient = (e) => {
     e.stopPropagation();
     dispatch(deleteIngridient({ index }));
@@ -135,7 +131,7 @@ export const BurgerConstructorPoint = ({ index, ingredient }) => {
       ) : (
         <p className={styles.buttonNone}></p>
       )}
-      <div className={styles.pointContent} onClick={handleOnIngriedients}>
+      <div className={styles.pointContent}>
         <ConstructorElement
           extraClass={type === 'bunDefault' && styles.constructorElement}
           key={index}

@@ -6,10 +6,7 @@ import styles from './ingredient-details.module.css';
 
 export const IngredientDetails = () => {
   const ingriedientCard = useSelector(SingriedientCard);
-  // console.log(ingriedientCard);
   const { image, name, calories, proteins, fat, carbohydrates } = ingriedientCard;
-
-  console.log(ingriedientCard);
   return (
     <article className={`${styles.modal_ingriedient}`}>
       <img className={`${styles.img} pr-10 pl-10 pb-4`} src={image} />

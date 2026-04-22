@@ -1,14 +1,16 @@
 import { Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Price } from '@/share/price';
 import { SingriedientsUser } from '@/store/constructorSlice/constructorSlice';
+import { setIngridientModal } from '@/store/modalSlice/modalSlice';
 
 import styles from './burger-ingriedients-point.module.css';
 
 export const BurgerIngredientPoint = ({ ingredient }) => {
+  const dispatch = useDispatch();
   const ingriedientsUser = useSelector(SingriedientsUser);
 
   // const { _id, name, price, image, type } = ingredient;
@@ -36,6 +38,9 @@ export const BurgerIngredientPoint = ({ ingredient }) => {
     }
   }, [ingriedientsUser]);
 
+  const handleOnIngriedients = () => {
+    dispatch(setIngridientModal({ isModalIngridient: true, ingredient }));
+  };
   // const handleAddIngriedientsBurger = () => {
   //   // dispatch(addIngriedientsBurger)
   //   if (ingredient.type !== 'bun') {
@@ -55,6 +60,7 @@ export const BurgerIngredientPoint = ({ ingredient }) => {
     >
       <button
         className={styles.pointButton}
+        onClick={handleOnIngriedients}
         // onClick={() => dispatch(addIngriedientsBurger({ ingredient }))}
       >
         <img className={styles.img} src={ingredient.image} />
