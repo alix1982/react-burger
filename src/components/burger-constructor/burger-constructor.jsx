@@ -3,17 +3,11 @@ import { BurgerConstructorFinalPrice } from './burger-constructor-price/burger-c
 
 import styles from './burger-constructor.module.css';
 
-export const BurgerConstructor = ({ ingriedientsUser, setIngriedientsUser }) => {
+export const BurgerConstructor = () => {
   return (
     <section className={styles.burger_constructor}>
-      <BurgerConstructorList
-        ingriedientsUser={ingriedientsUser}
-        setIngriedientsUser={setIngriedientsUser}
-      />
-      <BurgerConstructorFinalPrice
-        ingriedientsUser={ingriedientsUser}
-        setIngriedientsUser={setIngriedientsUser}
-      />
+      <BurgerConstructorList />
+      <BurgerConstructorFinalPrice />
     </section>
   );
 };

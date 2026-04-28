@@ -59,3 +59,7 @@
 .constructorElement .constructor-element__price {
   display: none;
 }
+
+.ingriedientDefault {
+  text-align: center;
+}

@@ -8,6 +8,7 @@ export const Price = ({
   return (
     <p className={className}>
       {price}
+      &nbsp;
       {price !== '' && <CurrencyIcon type={typeIcon} />}
     </p>
   );

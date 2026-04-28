@@ -1,6 +1,11 @@
 .point {
   width: calc(50% - 12px);
   min-width: 150px;
+  opacity: 1;
+}
+
+.pointDrag {
+  opacity: 0.5;
 }
 
 .pointButton {

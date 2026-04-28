@@ -5,6 +5,7 @@ export const REACT_APP_BASE_URL = 'https://new-stellarburgers.education-services
 export const BUN_DEFAULT = [
   {
     _id: '0',
+    uuid: '0',
     name: 'Выберете булку',
     type: 'bunDefault',
     proteins: 0,
@@ -16,7 +17,25 @@ export const BUN_DEFAULT = [
     image_mobile: '',
     image_large: '',
   },
+  {
+    _id: '1',
+    uuid: '1',
+    name: 'Выберете ингридиентs',
+    type: 'ingriedientDefault',
+    proteins: 0,
+    fat: 0,
+    carbohydrates: 0,
+    calories: 0,
+    price: 0,
+    image: burger,
+    image_mobile: '',
+    image_large: '',
+  },
 ];
+
+export const ERROR_MESSAGE_GET_INGRIEDIENTS = 'Ошибка запроса ингридиентов';
+
+export const ERROR_MESSAGE_POST_ORDER_BURGER = 'Ошибка создания заказа';
 
 export const ingredientsMock = [
   {

@@ -1,8 +1,13 @@
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getIngriedients } from '@/store/apiSlice';
-import { BUN_DEFAULT } from '@/utils/constant';
+import {
+  receivingIngridients,
+  SisLoading,
+} from '@/store/ingriedientsSlice/ingriedientsSlice';
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
@@ -10,22 +15,11 @@ import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredi
 import styles from './app.module.css';
 
 export const App = () => {
-  const [ingriedients, setIngriedients] = useState([]); // в redux
-  const [ingriedientsUser, setIngriedientsUser] = useState(BUN_DEFAULT); // в redux
-  const [isPending, startTransition] = useTransition();
-  async function fetchIngriedients() {
-    try {
-      const response = await getIngriedients();
-      setIngriedients(response.data.data);
-      return response.data;
-    } catch (error) {
-      console.error('Ошибка загрузки:', error);
-      throw error;
-    }
-  }
+  const dispatch = useDispatch();
+  const isLoading = useSelector(SisLoading);
 
   useEffect(() => {
-    startTransition(() => fetchIngriedients());
+    dispatch(receivingIngridients());
   }, []);
 
   return (
@@ -34,21 +28,12 @@ export const App = () => {
       <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
         Соберите бургер
       </h1>
-      <main className={`${styles.main} pl-5 pr-5`}>
-        {isPending ? (
-          <Preloader />
-        ) : (
-          <BurgerIngredients
-            ingredients={ingriedients}
-            ingriedientsUser={ingriedientsUser}
-            setIngriedientsUser={setIngriedientsUser}
-          />
-        )}
-        <BurgerConstructor
-          ingriedientsUser={ingriedientsUser}
-          setIngriedientsUser={setIngriedientsUser}
-        />
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={`${styles.main} pl-5 pr-5`}>
+          {isLoading ? <Preloader /> : <BurgerIngredients />}
+          <BurgerConstructor />
+        </main>
+      </DndProvider>
     </div>
   );
 };

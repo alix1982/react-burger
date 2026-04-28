@@ -1,13 +1,17 @@
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Modal } from '@/components/modal/modal';
+import { IngredientDetails } from '@/components/modal/modal-content/ingredient-details';
+import { setIngridientModal, SingriedientModal } from '@/store/modalSlice/modalSlice';
+import { BUN_DEFAULT } from '@/utils/constant';
+
 import { BurgerIngredientPoint } from './burger-ingriedients-point/burger-ingriedients-point';
 
 import styles from './burger-ingredients-list.module.css';
 
-export const BurgerIngredientsList = ({
-  ref,
-  ingredients,
-  ingriedientsUser,
-  setIngriedientsUser,
-}) => {
+export const BurgerIngredientsList = ({ ref, ingredients }) => {
+  const dispatch = useDispatch();
+  const ingridientModalOn = useSelector(SingriedientModal);
   return (
     <>
       <h1 className={`text text_type_main-medium ${styles.heading}`} ref={ref}>
@@ -20,18 +24,29 @@ export const BurgerIngredientsList = ({
       </h1>
       <ul className={styles.list}>
         {ingredients?.length > 0 ? (
-          ingredients.map((ingredient) => (
+          ingredients.map((ingredient, index) => (
             <BurgerIngredientPoint
               key={ingredient._id}
+              index={index}
               ingredient={ingredient}
-              ingriedientsUser={ingriedientsUser}
-              setIngriedientsUser={setIngriedientsUser}
             />
           ))
         ) : (
-          <p className={`text text_type_main-default`}>Нет доступных булок</p>
+          <p className={`text text_type_main-default`}>Нет доступных ингридиентов</p>
         )}
       </ul>
+      <Modal
+        heading={'Детали ингредиента'}
+        isOpen={ingridientModalOn}
+        onClose={() => {
+          dispatch(
+            setIngridientModal({ isModalIngridient: false, ingredient: BUN_DEFAULT[0] })
+          );
+        }}
+        containerId={'burgerConstructorPoint'}
+      >
+        <IngredientDetails />
+      </Modal>
     </>
   );
 };
