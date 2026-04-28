@@ -1,0 +1,10 @@
+.profilePage {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 60px;
+  width: 100%;
+  width: calc(100% - 16px - 16px);
+  max-width: 1240px;
+  margin: 120px auto 0;
+}

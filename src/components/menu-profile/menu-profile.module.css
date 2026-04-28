@@ -1,0 +1,30 @@
+.menu {
+  min-width: 320px;
+}
+
+.menuList {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menuPoint {
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+
+.menuPointLink_active {
+  color: #fff;
+  text-decoration: none;
+}
+
+.menuPointLink_unactive {
+  color: #8585ad;
+  text-decoration: none;
+}

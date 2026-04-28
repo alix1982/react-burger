@@ -1,12 +1,35 @@
+// import { useEffect } from 'react';
+import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
-import { SingriedientCard } from '@/store/modalSlice/modalSlice';
+import {
+  // receivingIngridients,
+  Singriedients,
+  SisLoading,
+} from '@/store/ingriedientsSlice/ingriedientsSlice';
+import { BUN_DEFAULT } from '@/utils/constant';
 
 import styles from './ingredient-details.module.css';
 
 export const IngredientDetails = () => {
-  const ingriedientCard = useSelector(SingriedientCard);
+  const { id } = useParams();
+  const ingriedients = useSelector(Singriedients);
+  const isLoading = useSelector(SisLoading);
+
+  let ingriedientCard = ingriedients.find((item) => item._id === id);
+
+  if (!ingriedientCard) {
+    ingriedientCard = BUN_DEFAULT[0];
+  }
+  // console.log(ingriedientCard);
+
   const { image, name, calories, proteins, fat, carbohydrates } = ingriedientCard;
+
+  if (isLoading) {
+    return <Preloader />;
+  }
+
   return (
     <article className={`${styles.modal_ingriedient}`}>
       <img className={`${styles.img} pr-10 pl-10 pb-4`} src={image} />

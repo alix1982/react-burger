@@ -1,0 +1,12 @@
+.formRegister {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.buttonSubmit {
+  width: min-content;
+}
