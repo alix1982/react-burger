@@ -45,6 +45,7 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
+    isAuthChecked: false,
     user: {
       name: '',
       email: '',
@@ -72,8 +73,12 @@ export const authSlice = createSlice({
       state.errorLogout = '';
       state.textLogout = '';
     },
+    setIsAuthChecked: (state, action) => {
+      state.isAuthChecked = action.payload;
+    },
   },
   selectors: {
+    SisAuthChecked: (state) => state.isAuthChecked,
     SuserAuth: (state) => state.user,
     SisLoadingRegister: (state) => state.isLoadingRegister,
     SerrorRegister: (state) => state.errorRegister,
@@ -90,22 +95,25 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     // регистрация
     builder.addCase(register.pending, (state) => {
+      state.isAuthChecked = false;
       state.errorRegister = '';
       state.isLoadingRegister = true;
     });
     builder.addCase(register.rejected, (state, action) => {
+      state.isAuthChecked = true;
       state.isLoadingRegister = false;
       state.errorRegister = action?.error?.message
         ? action.error.message
         : ERROR_MESSAGE_POST_REGISTER;
     });
     builder.addCase(register.fulfilled, (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       if (action.payload?.user) {
         state.isLoadingRegister = false;
         state.errorRegister = '';
         state.user = { ...action.payload.user, password: '' };
         addTokenInStorage(action.payload);
+        state.isAuthChecked = true;
         // document.cookie = `accessToken=${action.payload.accessToken}; path=/; secure; samesite=strict`;
         // localStorage.setItem('refreshToken', action.payload.refreshToken);
       } else {
@@ -116,20 +124,23 @@ export const authSlice = createSlice({
           email: '',
           password: '',
         };
+        state.isAuthChecked = true;
       }
     });
 
     // вход
     builder.addCase(login.pending, (state) => {
+      state.isAuthChecked = false;
       state.errorLogin = '';
       state.isLoadingLogin = true;
     });
     builder.addCase(login.rejected, (state, action) => {
+      state.isAuthChecked = true;
       state.isLoadingLogin = false;
       state.errorLogin = action?.error?.message
         ? action.error.message
         : ERROR_MESSAGE_POST_LOGIN;
-      console.log(state.errorLogin);
+      // console.log(state.errorLogin);
     });
     builder.addCase(login.fulfilled, (state, action) => {
       if (action.payload?.user) {
@@ -137,6 +148,7 @@ export const authSlice = createSlice({
         state.errorLogin = '';
         state.user = { ...action.payload.user, password: '' };
         addTokenInStorage(action.payload);
+        state.isAuthChecked = true;
         // document.cookie = `accessToken=${action.payload.accessToken}; path=/; secure; samesite=strict`;
         // localStorage.setItem('refreshToken', action.payload.refreshToken);
       } else {
@@ -147,6 +159,7 @@ export const authSlice = createSlice({
           email: '',
           password: '',
         };
+        state.isAuthChecked = true;
       }
     });
 
@@ -162,8 +175,8 @@ export const authSlice = createSlice({
       state.errorForgotPassword = ERROR_MESSAGE_POST_FORGOT_PASSWORD;
       localStorage.removeItem('isChangePassword');
     });
-    builder.addCase(changePassword.fulfilled, (state, action) => {
-      console.log(action.payload);
+    builder.addCase(changePassword.fulfilled, (state) => {
+      // console.log(action.payload);
       state.isLoadingForgotPassword = false;
       state.errorForgotPassword = '';
       localStorage.setItem('isChangePassword', true);
@@ -178,8 +191,8 @@ export const authSlice = createSlice({
       state.isLoadingResetPassword = false;
       state.errorResetPassword = ERROR_MESSAGE_POST_RESET_PASSWORD;
     });
-    builder.addCase(resetPassword.fulfilled, (state, action) => {
-      console.log(action.payload);
+    builder.addCase(resetPassword.fulfilled, (state) => {
+      // console.log(action.payload);
       state.isLoadingResetPassword = false;
       state.errorResetPassword = '';
       localStorage.removeItem('isChangePassword');
@@ -195,27 +208,30 @@ export const authSlice = createSlice({
       state.textLogout = '';
       state.isLoadingLogout = false;
       state.errorLogout = ERROR_MESSAGE_POST_LOGOUT;
-      console.log('slice-reject');
+      // console.log('slice-reject');
       clearTokenInStorage();
+      state.isAuth = false;
       // localStorage.removeItem('refreshToken');
       // document.cookie = 'accessToken=; path=/; secure; samesite=strict';
     });
     builder.addCase(logout.fulfilled, (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.isLoadingLogout = false;
       state.errorLogout = '';
       state.textLogout = action.payload.message;
-      console.log('slice-fulfilled');
+      // console.log('slice-fulfilled');
       clearTokenInStorage();
+      state.isAuth = false;
       // localStorage.removeItem('refreshToken');
       // document.cookie = 'accessToken=; path=/; secure; samesite=strict';
     });
   },
 });
 
-export const { clearErrorMes } = authSlice.actions;
+export const { clearErrorMes, setIsAuthChecked } = authSlice.actions;
 
 export const {
+  SisAuthChecked,
   SuserAuth,
   SisLoadingRegister,
   SerrorRegister,

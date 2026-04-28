@@ -3,11 +3,22 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ERROR_MESSAGE_GET_USER, ERROR_MESSAGE_PATCH_USER } from '@/utils/constant';
 
 import { getUser, patchUser } from '../apiSlice';
+import { setIsAuthChecked } from '../authSlice/authSlice';
 
-export const receivingUser = createAsyncThunk('user/receivingUser', async () => {
-  const response = await getUser();
-  return response.data;
-});
+export const receivingUser = createAsyncThunk(
+  'user/receivingUser',
+  async (_, { dispatch, rejectWithValue }) => {
+    dispatch(setIsAuthChecked(false));
+    try {
+      const response = await getUser();
+      dispatch(setIsAuthChecked(true));
+      return response.data;
+    } catch (error) {
+      dispatch(setIsAuthChecked(true));
+      return rejectWithValue(error);
+    }
+  }
+);
 
 export const changeUser = createAsyncThunk('user/changeUser', async (data) => {
   const response = await patchUser(data);
@@ -47,9 +58,12 @@ export const userSlice = createSlice({
     });
     builder.addCase(receivingUser.rejected, (state, action) => {
       state.isLoadingGetUser = false;
-      state.errorGetUser = action?.error?.message
-        ? action?.error?.message
+      state.errorGetUser = action?.payload?.message
+        ? action?.payload?.message
         : ERROR_MESSAGE_GET_USER;
+      // state.errorGetUser = action?.error?.message
+      //   ? action?.error?.message
+      //   : ERROR_MESSAGE_GET_USER;
     });
     builder.addCase(receivingUser.fulfilled, (state, action) => {
       if (action.payload?.user) {

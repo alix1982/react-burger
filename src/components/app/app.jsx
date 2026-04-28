@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { ProfileOrder } from '@/components/profile-order/profile-order';
@@ -9,10 +11,12 @@ import { LoginPage } from '@/pages/login-page/login-page';
 import { ProfilePage } from '@/pages/profile-page/profile-page';
 import { RegisterPage } from '@/pages/register-page/register-page';
 import { ResetPasswordPage } from '@/pages/reset-password-page/reset-password-page';
+import { receivingUser } from '@/store/userSlice/userSlice';
 
 import { ExitProfile } from '../exit-profile/exit-profile';
 import { FormProfile } from '../form-profile/form-profile';
 import { Modal } from '../modal/modal';
+import { ProtectedRoute } from '../protected-route/protected-route';
 
 const router = createBrowserRouter([
   {
@@ -47,7 +51,8 @@ const router = createBrowserRouter([
   },
   {
     path: '/profile',
-    element: <ProfilePage />,
+    // element: <ProfilePage />,
+    element: <ProtectedRoute component={<ProfilePage />} />,
     children: [
       {
         path: '',
@@ -75,6 +80,10 @@ const router = createBrowserRouter([
 
 export const App = () => {
   localStorage.removeItem('isChangePassword');
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(receivingUser());
+  }, []);
   // console.log('rerender');
   return <RouterProvider router={router} />;
 };

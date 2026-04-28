@@ -7,7 +7,7 @@ import { addTokenInStorage, clearTokenInStorage, getCookie } from '@/utils/helpe
 // обновление токена
 export const refreshToken = async () => {
   const refreshToken = localStorage.getItem('refreshToken');
-  console.log(refreshToken);
+  // console.log(refreshToken);
   if (!refreshToken) {
     throw new Error('Refresh token not found');
   }
@@ -15,7 +15,7 @@ export const refreshToken = async () => {
   try {
     const response = await apiRequest.post('/auth/token', { token: refreshToken });
     // const { accessToken, refreshToken } = response.data;
-    console.log(response);
+    // console.log(response);
     // Сохраняем новый access token (в cookie или localStorage)
     addTokenInStorage(response.data);
     // document.cookie = `accessToken=${accessToken}; path=/; secure; samesite=strict`;
@@ -23,8 +23,8 @@ export const refreshToken = async () => {
     return response.data.accessToken;
   } catch (error) {
     // Очищаем токены при ошибке обновления
-    console.log('api');
-    console.log(error);
+    // console.log('api');
+    // console.log(error);
     clearTokenInStorage();
     // localStorage.removeItem('refreshToken');
     // document.cookie = 'accessToken=; path=/; secure; samesite=strict';

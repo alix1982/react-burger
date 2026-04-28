@@ -13,7 +13,7 @@ export const addTokenInStorage = (data) => {
 };
 
 export const clearTokenInStorage = () => {
-  console.log('clearToken');
+  // console.log('clearToken');
   localStorage.removeItem('refreshToken');
   document.cookie = 'accessToken=; path=/; secure; samesite=strict';
 };
