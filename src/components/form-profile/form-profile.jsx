@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   changeUser,
+  clearErrorMesUser,
   SerrorGetUser,
   SerrorPatchUser,
   SisLoadingGetUser,
@@ -103,6 +104,14 @@ export const FormProfile = () => {
     validForm.password,
   ]);
 
+  useEffect(() => {
+    if (errorGetUser || errorPatchUser) {
+      const timer = setTimeout(() => {
+        dispatch(clearErrorMesUser());
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [errorGetUser, errorPatchUser]);
   // console.log(values);
   // console.log(validForm);
   return (

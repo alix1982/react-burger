@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { clearErrorMes } from '@/store/authSlice/authSlice';
+import { clearErrorMesAuth } from '@/store/authSlice/authSlice';
 
 import { FormPoint } from './form-point/form-point';
 
@@ -96,8 +96,8 @@ export const Form = ({
   useEffect(() => {
     if (errorMes) {
       const timer = setTimeout(() => {
-        dispatch(clearErrorMes());
-      }, 5000);
+        dispatch(clearErrorMesAuth());
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [errorMes]);

@@ -21,19 +21,19 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 const router = createBrowserRouter([
   {
     path: '/register',
-    element: <RegisterPage />,
+    element: <ProtectedRoute onlyUnAuth component={<RegisterPage />} />,
   },
   {
     path: '/login',
-    element: <LoginPage />,
+    element: <ProtectedRoute onlyUnAuth component={<LoginPage />} />,
   },
   {
     path: '/forgot-password',
-    element: <ForgotPasswordPage />,
+    element: <ProtectedRoute onlyUnAuth component={<ForgotPasswordPage />} />,
   },
   {
     path: '/reset-password',
-    element: <ResetPasswordPage />,
+    element: <ProtectedRoute onlyUnAuth component={<ResetPasswordPage />} />,
   },
   {
     path: '/',

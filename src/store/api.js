@@ -44,7 +44,6 @@ export const apiRequest = axios.create({
 apiRequest.interceptors.request.use((config) => {
   // console.log(document.cookie);
   const token = getCookie('accessToken');
-  // const refreshToken = localStorage.getItem('token');
   if (token) {
     // config.headers.Authorization = `Bearer ${token}`;
     config.headers.Authorization = token;

@@ -46,11 +46,7 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState: {
     isAuthChecked: false,
-    user: {
-      name: '',
-      email: '',
-      password: '',
-    },
+    user: null,
     isLoadingRegister: false,
     errorRegister: '',
     isLoadingLogin: false,
@@ -65,7 +61,7 @@ export const authSlice = createSlice({
     errorLogout: '',
   },
   reducers: {
-    clearErrorMes: (state) => {
+    clearErrorMesAuth: (state) => {
       state.errorRegister = '';
       state.errorLogin = '';
       state.errorForgotPassword = '';
@@ -119,11 +115,7 @@ export const authSlice = createSlice({
       } else {
         state.isLoadingRegister = false;
         state.errorRegister = ERROR_MESSAGE_POST_REGISTER;
-        state.user = {
-          name: '',
-          email: '',
-          password: '',
-        };
+        state.user = null;
         state.isAuthChecked = true;
       }
     });
@@ -154,11 +146,7 @@ export const authSlice = createSlice({
       } else {
         state.isLoadingLogin = false;
         state.errorLogin = ERROR_MESSAGE_POST_LOGIN;
-        state.user = {
-          name: '',
-          email: '',
-          password: '',
-        };
+        state.user = null;
         state.isAuthChecked = true;
       }
     });
@@ -210,7 +198,8 @@ export const authSlice = createSlice({
       state.errorLogout = ERROR_MESSAGE_POST_LOGOUT;
       // console.log('slice-reject');
       clearTokenInStorage();
-      state.isAuth = false;
+      state.user = null;
+      // state.isAuth = false;
       // localStorage.removeItem('refreshToken');
       // document.cookie = 'accessToken=; path=/; secure; samesite=strict';
     });
@@ -221,14 +210,15 @@ export const authSlice = createSlice({
       state.textLogout = action.payload.message;
       // console.log('slice-fulfilled');
       clearTokenInStorage();
-      state.isAuth = false;
+      state.user = null;
+      // state.isAuth = false;
       // localStorage.removeItem('refreshToken');
       // document.cookie = 'accessToken=; path=/; secure; samesite=strict';
     });
   },
 });
 
-export const { clearErrorMes, setIsAuthChecked } = authSlice.actions;
+export const { clearErrorMesAuth, setIsAuthChecked } = authSlice.actions;
 
 export const {
   SisAuthChecked,

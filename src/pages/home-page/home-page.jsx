@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
 // import { SuserAuth } from '@/store/authSlice/authSlice';
-import { SisAuthChecked } from '@/store/authSlice/authSlice';
+// import { SisAuthChecked } from '@/store/authSlice/authSlice';
 import {
   receivingIngridients,
   SisLoading,
@@ -24,10 +24,10 @@ export const HomePage = () => {
   const isLoading = useSelector(SisLoading);
   // const userAuth = useSelector(SuserAuth);
   // const user = useSelector(Suser);
-  const isAuthChecked = useSelector(SisAuthChecked);
+  // const isAuthChecked = useSelector(SisAuthChecked);
   // console.log(userAuth);
   // console.log(user);
-  console.log(isAuthChecked);
+  // console.log(isAuthChecked);
   useEffect(() => {
     dispatch(receivingIngridients());
   }, []);

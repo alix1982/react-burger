@@ -28,19 +28,19 @@ export const changeUser = createAsyncThunk('user/changeUser', async (data) => {
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: {
-      name: '',
-      email: '',
-      password: '',
-    },
+    user: null,
     isLoadingGetUser: false,
     errorGetUser: '',
     isLoadingPatchUser: false,
     errorPatchUser: '',
   },
   reducers: {
+    clearErrorMesUser: (state) => {
+      state.errorGetUser = '';
+      state.errorPatchUser = '';
+    },
     setUser: (state, action) => {
-      state.user = { ...action.payload, password: '' };
+      state.user = action.payload;
     },
   },
   selectors: {
@@ -73,11 +73,7 @@ export const userSlice = createSlice({
       } else {
         state.isLoadingGetUser = false;
         state.errorGetUser = ERROR_MESSAGE_GET_USER;
-        state.user = {
-          name: '',
-          email: '',
-          password: '',
-        };
+        state.user = null;
       }
     });
 
@@ -100,17 +96,13 @@ export const userSlice = createSlice({
       } else {
         state.isLoadingPatchUser = false;
         state.errorPatchUser = ERROR_MESSAGE_PATCH_USER;
-        state.user = {
-          name: '',
-          email: '',
-          password: '',
-        };
+        state.user = null;
       }
     });
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { clearErrorMesUser, setUser } = userSlice.actions;
 
 export const {
   Suser,

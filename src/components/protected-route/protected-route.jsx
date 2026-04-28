@@ -7,9 +7,9 @@ import { Suser } from '@/store/userSlice/userSlice';
 export const ProtectedRoute = ({ onlyUnAuth = false, component }) => {
   const isAuthChecked = useSelector(SisAuthChecked);
   const user = useSelector(Suser);
-  console.log(user);
-  console.log(isAuthChecked);
-  console.log(onlyUnAuth);
+  // console.log(user);
+  // console.log(isAuthChecked);
+  // console.log(onlyUnAuth);
   const location = useLocation();
   if (!isAuthChecked) {
     return null;
