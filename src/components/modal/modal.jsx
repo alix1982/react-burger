@@ -64,16 +64,6 @@ export const Modal = ({ typeModal = 'default' }) => {
       onClose: handleCloseModalDefault,
     },
   };
-  // // Инициализируем контейнер при монтировании
-  // useEffect(() => {
-  //   const modalRootContainer = document.getElementById(containerId);
-  //   if (modalRootContainer) {
-  //     setContainerModal(modalRootContainer);
-  //   } else {
-  //     setContainerModal(null);
-  //     console.error(`Контейнер #${containerId} не найден!`);
-  //   }
-  // }, []);
 
   useEffect(() => {
     if (dialogRef.current) {
@@ -90,12 +80,7 @@ export const Modal = ({ typeModal = 'default' }) => {
       modalData[typeModal]?.onClose(e);
     }
   };
-  // Если контейнер не найден или модальное окно закрыто, не рендерим портал
-  // if (!containerModal || !isOpen) {
-  //   return null;
-  // }
-  // console.log(modalData[typeModal]);
-  // console.log(typeModal);
+
   return (
     <>
       <ModalOverlay>

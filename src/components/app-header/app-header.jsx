@@ -4,11 +4,12 @@ import {
   ProfileIcon,
   Logo,
 } from '@krgaa/react-developer-burger-ui-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import styles from './app-header.module.css';
 
 export const AppHeader = () => {
+  const navigate = useNavigate();
   return (
     <header className={styles.header}>
       <nav className={`${styles.menu} p-4`}>
@@ -45,9 +46,14 @@ export const AppHeader = () => {
             )}
           </NavLink>
         </div>
-        <div className={styles.logo}>
+        <button
+          className={styles.logo}
+          onClick={() => {
+            navigate('/');
+          }}
+        >
           <Logo />
-        </div>
+        </button>
         <NavLink
           to="/profile"
           className={({ isActive }) =>

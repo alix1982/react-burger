@@ -17,6 +17,7 @@ import {
   SisLoading,
   // Sorder,
 } from '@/store/orderSlice/orderSlice';
+import { Suser } from '@/store/userSlice/userSlice';
 import { BUN_DEFAULT } from '@/utils/constant';
 
 import styles from './burger-constructor-price.module.css';
@@ -29,6 +30,7 @@ export const BurgerConstructorFinalPrice = () => {
   // const order = useSelector(Sorder);
   const isLoading = useSelector(SisLoading);
   const errorMes = useSelector(SerrorMes);
+  const user = useSelector(Suser);
   const [finalPrice, setFinalPrice] = useState(0);
 
   useEffect(() => {
@@ -40,17 +42,21 @@ export const BurgerConstructorFinalPrice = () => {
   }, [ingriedientsUser]);
 
   const handleOrder = () => {
-    dispatch(sendingOrder(ingriedientsUser))
-      .then((res) => {
-        if (!res.error) {
-          // dispatch(setOrderModal(true));
-          dispatch(setIngriedientsUser(BUN_DEFAULT));
-          navigate('/order');
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (user) {
+      dispatch(sendingOrder(ingriedientsUser))
+        .then((res) => {
+          if (!res.error) {
+            // dispatch(setOrderModal(true));
+            dispatch(setIngriedientsUser(BUN_DEFAULT));
+            navigate('/order');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      navigate('/login');
+    }
   };
   return (
     <article className={styles.finalPrice} id={'burgerConstructorFinalPrice'}>

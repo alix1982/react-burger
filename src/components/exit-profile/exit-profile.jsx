@@ -36,7 +36,6 @@ export const ExitProfile = () => {
       {isLoadingLogout ? (
         <Preloader />
       ) : (
-        // <p className={`${styles.devDefault} text text_type_main-medium`}>
         <p
           className={`${styles.exitProfile} ${errorLogout ? 'text text_type_main-medium text_color_error' : 'text text_type_main-medium'}`}
         >
