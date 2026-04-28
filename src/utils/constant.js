@@ -33,9 +33,15 @@ export const BUN_DEFAULT = [
   },
 ];
 
+export const ERROR_MESSAGE_GET_USER = 'Ошибка запроса данных пользователя';
+export const ERROR_MESSAGE_PATCH_USER = 'Ошибка изменения данных пользователя';
 export const ERROR_MESSAGE_GET_INGRIEDIENTS = 'Ошибка запроса ингридиентов';
-
 export const ERROR_MESSAGE_POST_ORDER_BURGER = 'Ошибка создания заказа';
+export const ERROR_MESSAGE_POST_REGISTER = 'Ошибка регистрации';
+export const ERROR_MESSAGE_POST_LOGIN = 'Ошибка входа';
+export const ERROR_MESSAGE_POST_FORGOT_PASSWORD = 'Ошибка изменения пароля';
+export const ERROR_MESSAGE_POST_RESET_PASSWORD = 'Ошибка сброса пароля';
+export const ERROR_MESSAGE_POST_LOGOUT = 'Ошибка выхода пользователя';
 
 export const ingredientsMock = [
   {

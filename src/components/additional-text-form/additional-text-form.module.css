@@ -1,0 +1,9 @@
+.textLink {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.link {
+  color: #4c4cff;
+}

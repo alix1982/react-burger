@@ -5,29 +5,39 @@ import { BUN_DEFAULT } from '@/utils/constant';
 export const modalSlice = createSlice({
   name: 'modal',
   initialState: {
-    ingridientModalOn: false,
+    // ingridientModalOn: false,
     ingriedientCard: BUN_DEFAULT[0],
-    orderModalOn: false,
+    // orderModalOn: false,
   },
   reducers: {
     setIngridientModal: (state, action) => {
-      const { isModalIngridient, ingredient = BUN_DEFAULT[0] } = action.payload;
+      const {
+        // isModalIngridient,
+        ingredient = BUN_DEFAULT[0],
+      } = action.payload;
       state.ingriedientCard = ingredient;
-      state.ingridientModalOn = isModalIngridient;
+      // state.ingridientModalOn = isModalIngridient;
     },
-    setOrderModal: (state, action) => {
-      state.orderModalOn = action.payload;
-    },
+    // setOrderModal: (state, action) => {
+    //   state.orderModalOn = action.payload;
+    // },
   },
   selectors: {
-    SingriedientModal: (state) => state.ingridientModalOn,
-    SorderModal: (state) => state.orderModalOn,
+    // SingriedientModal: (state) => state.ingridientModalOn,
+    // SorderModal: (state) => state.orderModalOn,
     SingriedientCard: (state) => state.ingriedientCard,
   },
 });
 
-export const { setIngridientModal, setOrderModal } = modalSlice.actions;
+export const {
+  setIngridientModal,
+  // setOrderModal
+} = modalSlice.actions;
 
-export const { SingriedientModal, SorderModal, SingriedientCard } = modalSlice.selectors;
+export const {
+  // SingriedientModal,
+  // SorderModal,
+  SingriedientCard,
+} = modalSlice.selectors;
 
 export default modalSlice.reducer;
