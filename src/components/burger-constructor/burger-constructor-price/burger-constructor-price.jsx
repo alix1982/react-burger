@@ -1,32 +1,36 @@
 import { Button } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { Modal } from '@/components/modal/modal';
-import { OrderDetails } from '@/components/modal/modal-content/order-details';
+// import { Modal } from '@/components/modal/modal';
+// import { OrderDetails } from '@/components/modal/modal-content/order-details';
 import { Price } from '@/share/price';
 import {
   setIngriedientsUser,
   SingriedientsUser,
 } from '@/store/constructorSlice/constructorSlice';
-import { setOrderModal, SorderModal } from '@/store/modalSlice/modalSlice';
+// import { setOrderModal } from '@/store/modalSlice/modalSlice';
 import {
   sendingOrder,
   SerrorMes,
   SisLoading,
-  Sorder,
+  // Sorder,
 } from '@/store/orderSlice/orderSlice';
+import { Suser } from '@/store/userSlice/userSlice';
 import { BUN_DEFAULT } from '@/utils/constant';
 
 import styles from './burger-constructor-price.module.css';
 
 export const BurgerConstructorFinalPrice = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const ingriedientsUser = useSelector(SingriedientsUser);
-  const orderModalOn = useSelector(SorderModal);
-  const order = useSelector(Sorder);
+  // const orderModalOn = useSelector(SorderModal);
+  // const order = useSelector(Sorder);
   const isLoading = useSelector(SisLoading);
   const errorMes = useSelector(SerrorMes);
+  const user = useSelector(Suser);
   const [finalPrice, setFinalPrice] = useState(0);
 
   useEffect(() => {
@@ -38,16 +42,21 @@ export const BurgerConstructorFinalPrice = () => {
   }, [ingriedientsUser]);
 
   const handleOrder = () => {
-    dispatch(sendingOrder(ingriedientsUser))
-      .then((res) => {
-        if (!res.error) {
-          dispatch(setOrderModal(true));
-          dispatch(setIngriedientsUser(BUN_DEFAULT));
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (user) {
+      dispatch(sendingOrder(ingriedientsUser))
+        .then((res) => {
+          if (!res.error) {
+            // dispatch(setOrderModal(true));
+            dispatch(setIngriedientsUser(BUN_DEFAULT));
+            navigate('/order');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      navigate('/login');
+    }
   };
   return (
     <article className={styles.finalPrice} id={'burgerConstructorFinalPrice'}>
@@ -65,13 +74,13 @@ export const BurgerConstructorFinalPrice = () => {
         {isLoading ? 'Оформляем заказ ...' : 'Оформить заказ'}
       </Button>
       {errorMes !== '' && <span className={styles.error}>{errorMes}</span>}
-      <Modal
+      {/* <Modal
         isOpen={orderModalOn}
         onClose={() => dispatch(setOrderModal(false))}
         containerId={'burgerConstructorFinalPrice'}
       >
         <OrderDetails numberOrder={order?.number} />
-      </Modal>
+      </Modal> */}
     </article>
   );
 };

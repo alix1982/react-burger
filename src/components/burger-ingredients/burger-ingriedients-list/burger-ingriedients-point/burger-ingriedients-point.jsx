@@ -2,6 +2,7 @@ import { Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { Price } from '@/share/price';
 import { SingriedientsUser } from '@/store/constructorSlice/constructorSlice';
@@ -11,6 +12,7 @@ import styles from './burger-ingriedients-point.module.css';
 
 export const BurgerIngredientPoint = ({ ingredient }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const ingriedientsUser = useSelector(SingriedientsUser);
 
   // const { _id, name, price, image, type } = ingredient;
@@ -39,7 +41,10 @@ export const BurgerIngredientPoint = ({ ingredient }) => {
   }, [ingriedientsUser]);
 
   const handleOnIngriedients = () => {
-    dispatch(setIngridientModal({ isModalIngridient: true, ingredient }));
+    // dispatch(setIngridientModal({ isModalIngridient: true, ingredient }));
+    dispatch(setIngridientModal({ ingredient }));
+
+    navigate(`/ingredients/${ingredient._id}`);
   };
   // const handleAddIngriedientsBurger = () => {
   //   // dispatch(addIngriedientsBurger)

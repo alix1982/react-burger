@@ -1,13 +1,15 @@
 .dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
   width: 50%;
   min-width: 400px;
   max-width: 720px;
-  margin: auto;
-  padding: 40px 40px 60px;
   color: #f2f2f3;
   background-color: #1c1c21;
   border: none;
   border-radius: 40px;
+  transform: translate(-50%, -50%);
 }
 
 .heading {
