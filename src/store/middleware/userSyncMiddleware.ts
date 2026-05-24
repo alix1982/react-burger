@@ -1,8 +1,9 @@
 // версия TS Алисы
 import { setUser } from '../userSlice/userSlice';
 
-import type { Middleware } from '@reduxjs/toolkit';
+import type { Middleware, MiddlewareAPI } from '@reduxjs/toolkit';
 
+import type { AppDispatch } from '..';
 import type {
   AuthState,
   ConstructorState,
@@ -55,8 +56,10 @@ const isRelevantAuthAction = (action: unknown): action is RelevantAuthAction => 
   );
 };
 
-export const userSyncMiddleware: Middleware<unknown, RootState> =
-  (store) => (next) => (action: unknown) => {
+// export const userSyncMiddleware: Middleware<unknown, RootState> =
+//   (store) => (next) => (action: unknown) => {
+export const userSyncMiddleware: Middleware =
+  (store: MiddlewareAPI<AppDispatch, RootState>) => (next) => (action) => {
     const result = next(action);
 
     if (isRelevantAuthAction(action)) {
@@ -82,143 +85,6 @@ export const userSyncMiddleware: Middleware<unknown, RootState> =
 
     return result;
   };
-
-// вариант TS не мидлвара не работает - после авторизации сразу логаут
-// import { setUser } from '../userSlice/userSlice';
-
-// import type {
-//   // Dispatch,
-//   // EnhancedStore,
-//   Middleware,
-//   // Middleware,
-//   // MiddlewareAPI,
-//   // PayloadAction,
-//   // StoreEnhancer,
-//   // ThunkDispatch,
-//   // Tuple,
-//   // UnknownAction,
-// } from '@reduxjs/toolkit';
-
-// import type {
-//   AuthState,
-//   ConstructorState,
-//   FetchAuthChangeReturn,
-//   FetchAuthReturn,
-//   FetchUserReturn,
-//   IngridientsState,
-//   ModalState,
-//   OrderState,
-//   UserState,
-// } from '../types';
-// // import type { RootState } from '..';
-
-// // Объединённый тип для всех возможных payload авторизации
-// type AuthPayload = FetchAuthReturn | FetchUserReturn;
-// type AuthLogoutPayload = FetchAuthChangeReturn | FetchUserReturn;
-// // type Store = EnhancedStore<
-// //   {
-// //     user: UserState;
-// //     ingridient: IngridientsState;
-// //     constructorIngriedients: ConstructorState;
-// //     modal: ModalState;
-// //     order: OrderState;
-// //     auth: AuthState;
-// //   },
-// //   UnknownAction,
-// //   Tuple<
-// //     [
-// //       StoreEnhancer<{
-// //         dispatch: ThunkDispatch<
-// //           {
-// //             ingridient: IngridientsState;
-// //             constructorIngriedients: ConstructorState;
-// //             modal: ModalState;
-// //             order: OrderState;
-// //             auth: AuthState;
-// //             user: UserState;
-// //           },
-// //           undefined,
-// //           UnknownAction
-// //         >;
-// //       }>,
-// //       StoreEnhancer,
-// //     ]
-// //   >
-// // >;
-
-// // Тип состояния приложения
-
-// type RootState = {
-//   user: UserState;
-//   ingridient: IngridientsState;
-//   constructorIngriedients: ConstructorState;
-//   modal: ModalState;
-//   order: OrderState;
-//   auth: AuthState;
-// };
-// // type UserSyncMiddleware = Middleware<{}, RootState, Dispatch>;
-
-// // Защита типа для проверки наличия user в payload
-// const hasUserProperty = (payload: AuthPayload): payload is FetchAuthReturn => {
-//   return !!(payload as FetchAuthReturn).user;
-// };
-
-// type RelevantAuthAction =
-//   | { type: 'auth/register/fulfilled'; payload: AuthPayload }
-//   | { type: 'auth/login/fulfilled'; payload: AuthPayload };
-
-// const isRelevantAuthAction = (action: unknown): action is RelevantAuthAction => {
-//   return (
-//     typeof action === 'object' &&
-//     action !== null &&
-//     'type' in action &&
-//     (action.type === 'auth/register/fulfilled' || action.type === 'auth/login/fulfilled')
-//   );
-// };
-// type RelevantLogoutAction = {
-//   type: 'auth/logout/fulfilled';
-//   payload: AuthLogoutPayload;
-// };
-
-// const isRelevantLogoutAction = (action: unknown): action is RelevantLogoutAction => {
-//   return (
-//     typeof action === 'object' &&
-//     action !== null &&
-//     'type' in action &&
-//     action.type === 'auth/logout/fulfilled'
-//   );
-// };
-// export const userSyncMiddleware: Middleware<unknown, RootState> =
-//   (store) => (next) => (action: unknown) => {
-//     // Пропускаем действие дальше по цепочке
-//     const result = next(action);
-//     // console.log(action?.payload);
-//     // Проверяем, является ли действие успешным результатом авторизации
-//     // if (action.payload?.user) {
-//     // Проверяем тип действия и наличие payload
-//     if (isRelevantAuthAction(action)) {
-//       // console.log('if-ts');
-//       if (
-//         (action.type === 'auth/register/fulfilled' ||
-//           action.type === 'auth/login/fulfilled') &&
-//         hasUserProperty(action.payload)
-//       ) {
-//         console.log(action.payload);
-//         // Синхронизируем данные — отправляем user в userSlice
-//         store.dispatch(setUser({ ...action.payload.user, password: '' }));
-//       }
-//       // }
-//     }
-//     if (isRelevantLogoutAction(action)) {
-//       // Обработка успешного выхода из системы
-//       if (action.type === 'auth/logout/fulfilled') {
-//         // console.log(action?.payload);
-//         // Очищаем данные пользователя в userSlice при успешном выходе
-//         store.dispatch(setUser(null));
-//       }
-//     }
-//     return result;
-//   };
 
 // варинт JS
 // import { setUser } from '../userSlice/userSlice';
