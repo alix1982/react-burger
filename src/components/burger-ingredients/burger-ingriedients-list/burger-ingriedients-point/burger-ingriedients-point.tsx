@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Price } from '@/share/price';
 import { SingriedientsUser } from '@/store/constructorSlice/constructorSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooksStore';
-import { setIngridientModal } from '@/store/modalSlice/modalSlice';
+import { setModalData } from '@/store/modalSlice/modalSlice';
 
 import type { Ingriedient } from '@/store/types';
 
@@ -62,7 +62,7 @@ export const BurgerIngredientPoint = ({
 
   const handleOnIngriedients = (): void => {
     // dispatch(setIngridientModal({ isModalIngridient: true, ingredient }));
-    dispatch(setIngridientModal({ ingredient }));
+    dispatch(setModalData({ modalData: ingredient }));
 
     navigate(`/ingredients/${ingredient._id}`);
   };

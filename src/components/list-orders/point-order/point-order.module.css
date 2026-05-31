@@ -1,0 +1,40 @@
+.orderPoint {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background-color: #2f2f37;
+  border-radius: 40px;
+}
+
+.headerPointOrder {
+  display: flex;
+  justify-content: space-between;
+}
+
+.listOrdersIconIngriedients {
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pointListOrdersIconIngriedients {
+  position: relative;
+  z-index: 2;
+  margin-right: -5px;
+}
+
+.iconIngriedients {
+  width: 32px;
+  height: 32px;
+  background-color: #131316;
+  border: 1px solid #8585ad;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.orderStatusDone {
+  color: #0ff;
+}

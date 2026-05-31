@@ -1,6 +1,7 @@
 import burger from '../assets/burgerDefault.svg';
 
 export const REACT_APP_BASE_URL = 'https://new-stellarburgers.education-services.ru/api';
+export const SOCKET_URL = 'wss://new-stellarburgers.education-services.ru/orders';
 
 export const BUN_DEFAULT = [
   {
@@ -32,6 +33,16 @@ export const BUN_DEFAULT = [
     image_large: '',
   },
 ];
+
+export const ORDER_DEFAULT = {
+  _id: '0',
+  number: 0,
+  name: 'Название бургера',
+  status: 'done',
+  ingredients: ['0'],
+  createdAt: '0',
+  updatedAt: '0',
+};
 
 export const ERROR_MESSAGE_GET_USER = 'Ошибка запроса данных пользователя';
 export const ERROR_MESSAGE_PATCH_USER = 'Ошибка изменения данных пользователя';

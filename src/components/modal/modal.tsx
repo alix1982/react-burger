@@ -3,16 +3,17 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from '@/store/hooksStore';
-import { setIngridientModal } from '@/store/modalSlice/modalSlice';
+import { setModalData } from '@/store/modalSlice/modalSlice';
 import { BUN_DEFAULT } from '@/utils/constant';
 
+import { FeedOrderDetails } from './modal-content/feedOrder-details';
 import { IngredientDetails } from './modal-content/ingredient-details';
 import { OrderDetails } from './modal-content/order-details';
 import { ModalOverlay } from './modalOverlay';
 
 import styles from './modal.module.css';
 
-type ModalType = 'ingriedient' | 'order' | 'default';
+type ModalType = 'ingriedient' | 'order' | 'feedOrder' | 'profileOrder' | 'default';
 
 type ModalProps = {
   typeModal: ModalType;
@@ -25,7 +26,12 @@ type ModalConfig = {
 };
 
 export const Modal = ({ typeModal = 'default' }: ModalProps): React.ReactNode => {
-  if (typeModal !== 'ingriedient' && typeModal !== 'order') {
+  if (
+    typeModal !== 'ingriedient' &&
+    typeModal !== 'order' &&
+    typeModal !== 'feedOrder' &&
+    typeModal !== 'profileOrder'
+  ) {
     typeModal = 'default';
   }
 
@@ -42,9 +48,9 @@ export const Modal = ({ typeModal = 'default' }: ModalProps): React.ReactNode =>
   ): void => {
     handleClose(e);
     dispatch(
-      setIngridientModal({
+      setModalData({
         // isModalIngridient: false,
-        ingredient: BUN_DEFAULT[0],
+        modalData: BUN_DEFAULT[0],
       })
     );
     // onClose();
@@ -55,6 +61,18 @@ export const Modal = ({ typeModal = 'default' }: ModalProps): React.ReactNode =>
     handleClose(e);
     // dispatch(setOrderModal(false));
     // onClose();
+  };
+  const handleCloseModalFeedOrder = (
+    e: React.SyntheticEvent<HTMLButtonElement | HTMLDialogElement>
+  ): void => {
+    e.preventDefault();
+    navigate('/feed');
+  };
+  const handleCloseModalProfileOrder = (
+    e: React.SyntheticEvent<HTMLButtonElement | HTMLDialogElement>
+  ): void => {
+    e.preventDefault();
+    navigate('/profile/orders');
   };
   const handleCloseModalDefault = (
     e: React.SyntheticEvent<HTMLButtonElement | HTMLDialogElement>
@@ -72,6 +90,16 @@ export const Modal = ({ typeModal = 'default' }: ModalProps): React.ReactNode =>
       heading: '',
       childrenModal: <OrderDetails />,
       onClose: handleCloseModalOrder,
+    },
+    feedOrder: {
+      heading: '',
+      childrenModal: <FeedOrderDetails />,
+      onClose: handleCloseModalFeedOrder,
+    },
+    profileOrder: {
+      heading: '',
+      childrenModal: <FeedOrderDetails />,
+      onClose: handleCloseModalProfileOrder,
     },
     default: {
       heading: 'Неизвестное окно',

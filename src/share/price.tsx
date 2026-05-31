@@ -1,5 +1,7 @@
 import { CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
 
+import styles from './price.module.css';
+
 type PriceProps = {
   price: number | string;
   className: string;
@@ -12,7 +14,7 @@ export const Price = ({
   typeIcon = 'primary',
 }: PriceProps): React.ReactNode => {
   return (
-    <p className={className}>
+    <p className={`${className} ${styles.price}`}>
       {price}
       &nbsp;
       {price !== '' && <CurrencyIcon type={typeIcon} />}

@@ -61,6 +61,12 @@ export const router = createBrowserRouter([
           {
             path: 'orders',
             element: <ProfileOrder />,
+            children: [
+              {
+                path: ':id',
+                element: <Modal typeModal={'profileOrder'} />,
+              },
+            ],
           },
           {
             path: 'exit',
@@ -71,6 +77,12 @@ export const router = createBrowserRouter([
       {
         path: '/feed',
         element: <FeedPage />,
+        children: [
+          {
+            path: ':id',
+            element: <Modal typeModal={'feedOrder'} />,
+          },
+        ],
       },
     ],
   },
@@ -79,14 +91,3 @@ export const router = createBrowserRouter([
     element: <ErrorPage />,
   },
 ]);
-
-// export const tempRouter = createBrowserRouter([
-//   {
-//     path: '/',
-//     element: <HomePage />,
-//   },
-//   {
-//     path: '/login',
-//     element: <LoginPage />,
-//   },
-// ]);

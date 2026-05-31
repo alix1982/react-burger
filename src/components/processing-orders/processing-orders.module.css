@@ -1,0 +1,9 @@
+.processingOrders {
+  width: calc(100% - 20px);
+  padding: 0 20px;
+}
+
+.statusOrders {
+  display: flex;
+  gap: 10px;
+}

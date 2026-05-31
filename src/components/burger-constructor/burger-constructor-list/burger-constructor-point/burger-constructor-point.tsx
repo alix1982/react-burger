@@ -130,7 +130,7 @@ export const BurgerConstructorPoint = ({
     );
   }
   // console.log(ingredient);
-  console.log(ingriedientsUser);
+  // console.log(ingriedientsUser);
   return (
     <div id={'burgerConstructorPoint'} ref={combinedRef} className={`${styles.point}`}>
       {isDraggable ? (

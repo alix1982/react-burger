@@ -1,5 +1,12 @@
-import { DevDefault } from '@/components/dev-default/dev_default';
+import { Outlet } from 'react-router-dom';
+
+import { ListOrders } from '../list-orders/list-orders';
 
 export const ProfileOrder = (): React.ReactNode => {
-  return <DevDefault />;
+  return (
+    <>
+      <ListOrders />
+      <Outlet />
+    </>
+  );
 };

@@ -3,22 +3,25 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { BUN_DEFAULT } from '@/utils/constant';
 
 import type { RootState } from '..';
-import type { Ingriedient, ModalState } from '../types';
+import type { Ingriedient, ModalState, OrderSocket } from '../types';
 
 const initialState: ModalState = {
-  ingriedientCard: BUN_DEFAULT[0],
+  modalDataCard: BUN_DEFAULT[0],
 };
 
 export const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    setIngridientModal: (state, action: PayloadAction<{ ingredient: Ingriedient }>) => {
+    setModalData: (
+      state,
+      action: PayloadAction<{ modalData: Ingriedient | OrderSocket }>
+    ) => {
       const {
         // isModalIngridient,
-        ingredient = BUN_DEFAULT[0],
+        modalData = BUN_DEFAULT[0],
       } = action.payload;
-      state.ingriedientCard = ingredient;
+      state.modalDataCard = modalData;
       // state.ingridientModalOn = isModalIngridient;
     },
     // setOrderModal: (state, action) => {
@@ -28,17 +31,17 @@ export const modalSlice = createSlice({
   selectors: {
     // SingriedientModal: (state) => state.ingridientModalOn,
     // SorderModal: (state) => state.orderModalOn,
-    SingriedientCard: (state) => state.ingriedientCard,
+    // SmodalDataCard: (state) => state.modalDataCard,
   },
 });
 
 export const {
-  setIngridientModal,
+  setModalData,
   // setOrderModal
 } = modalSlice.actions;
 
-export const SingriedientCard = (state: RootState): Ingriedient =>
-  state.modal.ingriedientCard;
+export const SmodalDataCard = (state: RootState): Ingriedient | OrderSocket =>
+  state.modal.modalDataCard;
 // export const {
 //   // SingriedientModal,
 //   // SorderModal,
