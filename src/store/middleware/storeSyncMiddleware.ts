@@ -1,7 +1,4 @@
 // версия TS
-import { SOCKET_URL } from '@/utils/constant';
-import { getCookie } from '@/utils/helpers';
-
 import {
   connect,
   disconnect,
@@ -100,6 +97,13 @@ export const userSyncMiddleware: Middleware =
   };
 
 //socket
+type ConnectAction = {
+  type: 'socket/connect' | 'socket/sendMessage' | 'socket/disconnect';
+  payload: {
+    urlSocket: string;
+  };
+};
+
 let ws: WebSocket | null = null;
 
 // подключение вебсокета
@@ -108,16 +112,17 @@ const reconnectPeriod = 3000;
 let reconnectAttempts = 0;
 const maxReconnectAttempts = 5;
 // URL, по которому подключались
-// let currentUrl = '';
+let currentUrl = '';
 let reconnectTimerId: NodeJS.Timeout | number = 0;
 
 export const socketSyncMiddleware: Middleware =
   (store: MiddlewareAPI<AppDispatch, RootState>) => (next) => (action) => {
     const result = next(action);
-
-    const { type } = action as PayloadAction;
+    const { type } = action as ConnectAction;
     //socket
     if (type === 'socket/connect') {
+      const { payload } = action as ConnectAction;
+      const { urlSocket } = payload;
       console.log('slice-connect');
       console.log(action);
       // const { payload: token } = action as PayloadAction<string>;
@@ -125,7 +130,10 @@ export const socketSyncMiddleware: Middleware =
       // const connectAction = action as PayloadAction<string>;
       // const url = connectAction.payload;
       // isConnected = true;
-      // currentUrl = url;
+      // if (action) {
+      console.log(urlSocket);
+      currentUrl = urlSocket;
+      // }
       // connect(store, { url });
 
       // Закрываем старое соединение, если есть
@@ -133,13 +141,14 @@ export const socketSyncMiddleware: Middleware =
         console.log('close old connection');
         ws.close();
       }
-
       // Создаём новый WebSocket
-      const token = getCookie('accessToken')?.split(' ')[1];
-      ws = new WebSocket(`${SOCKET_URL}?token=${token}`);
+
+      // const token = getCookie('accessToken')?.split(' ')[1];
+      // console.log(currentUrl);
+      ws = new WebSocket(`${currentUrl}`);
 
       isConnected = true;
-      reconnectAttempts = 0;
+      // reconnectAttempts = 0;
 
       // Обработчик открытия соединения
       ws.onopen = (): void => {
@@ -181,7 +190,11 @@ export const socketSyncMiddleware: Middleware =
           reconnectAttempts++;
           console.log(`Reconnecting... Attempt ${reconnectAttempts}`);
           reconnectTimerId = setTimeout(() => {
-            store.dispatch(connect());
+            store.dispatch(
+              connect({
+                urlSocket: currentUrl,
+              })
+            );
           }, reconnectPeriod * reconnectAttempts); // экспоненциальный бэкофф
         }
       };
@@ -200,6 +213,8 @@ export const socketSyncMiddleware: Middleware =
     // Обработка экшена disconnect
     if (type === 'socket/disconnect') {
       console.log('slice-disconnect');
+      reconnectAttempts = 0;
+      currentUrl = '';
       clearTimeout(reconnectTimerId); // Отменяем запланированное переподключение
       reconnectTimerId = 0; // Сбрасываем id таймера
       isConnected = false; // меняем статус сокета на отключено

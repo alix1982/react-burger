@@ -27,7 +27,8 @@ export const socketSlice = createSlice({
   initialState,
   reducers: {
     // Управляющие редьюсеры
-    connect: (state) => {
+    connect: (state, action) => {
+      console.log(action);
       state.isLoading = true;
       state.errorMes = null;
     },
@@ -67,7 +68,7 @@ export const socketSlice = createSlice({
 });
 
 export const Smessages = (state: RootState): MessageSocket[] => state.socket.messages;
-// export const SisLoading = (state: RootState): boolean => state.order.isLoading;
+export const SisLoading = (state: RootState): boolean => state.socket.isLoading;
 // export const SerrorMes = (state: RootState): string => state.order.errorMes;
 // export const { Sorder, SisLoading, SerrorMes } = orderSlice.selectors;
 

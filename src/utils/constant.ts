@@ -1,7 +1,9 @@
 import burger from '../assets/burgerDefault.svg';
 
 export const REACT_APP_BASE_URL = 'https://new-stellarburgers.education-services.ru/api';
-export const SOCKET_URL = 'wss://new-stellarburgers.education-services.ru/orders';
+export const SOCKET_URL_AUTH = 'wss://new-stellarburgers.education-services.ru/orders';
+export const SOCKET_URL_NO_AUTH =
+  'wss://new-stellarburgers.education-services.ru/orders/all';
 
 export const BUN_DEFAULT = [
   {

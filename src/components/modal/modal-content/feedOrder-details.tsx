@@ -13,42 +13,78 @@ import type { Ingriedient, OrderSocket } from '@/store/types';
 
 import styles from './feedOrder-details.module.css';
 
+type IngredientFull = {
+  id: string;
+  count: number;
+};
+
+type IngredientWithCount = Ingriedient & {
+  count?: number;
+};
+
 export const FeedOrderDetails = (): React.ReactNode => {
   const path = window.location.pathname.split('/')[1];
   const { id } = useParams();
   const messages = useAppSelector(Smessages);
   const ingriedients = useAppSelector(Singriedients);
   const isLoading = useAppSelector(SisLoading);
-  const [mesCard, setMesCard] = useState<OrderSocket | undefined>();
-  const [ingrArr, setIngrArr] = useState<Ingriedient[]>([]);
+  const [orderCard, setOrderCard] = useState<OrderSocket | undefined>();
+  const [ingriedientsRender, setIngriedientsRender] = useState<IngredientWithCount[]>(
+    []
+  );
   const [finalPrice, setFinalPrice] = useState<number>(0);
 
   useEffect(() => {
     let count = 0;
-    ingrArr.forEach((item) => {
-      count = count + item.price;
+    ingriedientsRender.forEach((item) => {
+      if (item.count) {
+        count = count + item.price * item.count;
+      }
     });
     setFinalPrice(count);
-  }, [ingrArr]);
+  }, [ingriedientsRender]);
 
   useEffect(() => {
     messages[messages.length - 1]?.orders &&
-      setMesCard(messages[messages.length - 1].orders.find((item) => item._id === id));
-    const newIngrArr: Ingriedient[] | null = [];
-    let newIngr = null;
-    if (mesCard?.ingredients) {
-      mesCard.ingredients.forEach((ingr) => {
-        newIngr = ingriedients.find((item) => item._id === ingr);
-        newIngr && newIngrArr.push(newIngr);
-        newIngr = null;
-      });
-      const arr = newIngrArr.splice(0, newIngrArr.length - 1);
-      setIngrArr(arr);
-    }
-  }, [mesCard, ingriedients]);
+      setOrderCard(messages[messages.length - 1].orders.find((item) => item._id === id));
 
-  if (!mesCard) {
-    setMesCard(ORDER_DEFAULT);
+    const ingriedientsOrderFinal: IngredientWithCount[] | null = [];
+    let ingriedientOrderFinal: IngredientWithCount | undefined | null = null;
+
+    if (orderCard?.ingredients) {
+      const processedIds: string[] = [];
+      const ingriedientsIdNoDuplicates: IngredientFull[] = orderCard.ingredients
+        .map((ingriedient) => {
+          // console.log(ingriedient);
+          const duplicatesArray = orderCard.ingredients.filter(
+            (item) => item === ingriedient
+          );
+          if (!processedIds.find((item) => item === ingriedient)) {
+            processedIds.push(ingriedient);
+            return {
+              id: ingriedient,
+              count: duplicatesArray.length,
+            };
+          }
+        })
+        .filter((item) => item !== undefined);
+
+      ingriedientsIdNoDuplicates.forEach((ingr) => {
+        ingriedientOrderFinal = ingriedients.find((item) => item._id === ingr.id);
+
+        if (ingriedientOrderFinal) {
+          ingriedientsOrderFinal.push({ ...ingriedientOrderFinal, count: ingr.count });
+        }
+        ingriedientOrderFinal = null;
+      });
+
+      // const arrFinish = [...newIngrArr];
+      setIngriedientsRender(ingriedientsOrderFinal);
+    }
+  }, [orderCard, ingriedients]);
+
+  if (!orderCard) {
+    setOrderCard(ORDER_DEFAULT);
   }
 
   // console.log(messages);
@@ -63,17 +99,17 @@ export const FeedOrderDetails = (): React.ReactNode => {
     <article className={`${styles.modalFeedOrder}`}>
       <p
         className={`${path === 'profile' && styles.title} text text_type_digits-default mb-5`}
-      >{`#${mesCard?.number}`}</p>
-      <p className={`text text_type_main-medium mb-1`}>{mesCard?.name}</p>
+      >{`#${orderCard?.number}`}</p>
+      <p className={`text text_type_main-medium mb-1`}>{orderCard?.name}</p>
       <p
-        className={`${mesCard?.status === 'done' && styles.orderStatusDone} text text_type_main-small mb-5`}
+        className={`${orderCard?.status === 'done' && styles.orderStatusDone} text text_type_main-small mb-5`}
       >
-        {mesCard?.status === 'done' ? 'Выполнен' : 'В работе'}
+        {orderCard?.status === 'done' ? 'Выполнен' : 'В работе'}
       </p>
       <p className={`text text_type_main-medium`}>Состав:</p>
       <ul className={`custom-scroll ${styles.modalFeedOrderList}`}>
-        {ingrArr.map((item) => (
-          <li key={item._id} className={`${styles.modalFeedOrderPointIngriedient}`}>
+        {ingriedientsRender.map((item, index) => (
+          <li key={index} className={`${styles.modalFeedOrderPointIngriedient}`}>
             <div className={`${styles.ingriedientContent}`}>
               <img
                 className={styles.iconIngriedients}
@@ -83,7 +119,7 @@ export const FeedOrderDetails = (): React.ReactNode => {
               <p>{item.name}</p>
             </div>
             <Price
-              price={`${item.type === 'bun' || item.type === 'bunDefault' ? '2' : '1'} x ${item.price}`}
+              price={`${item.count} x ${item.price}`}
               className={`text text_type_digits-default`}
               typeIcon={'primary'}
             />
@@ -91,8 +127,10 @@ export const FeedOrderDetails = (): React.ReactNode => {
         ))}
       </ul>
       <div className={`${styles.modalFeedOrderFooter} mt-5`}>
-        <p className={`${styles.title} text text_type_main-default text_color_inactive`}>
-          {mesCard?.createdAt ? formatDateToUI(mesCard?.createdAt) : 'не определенно'}
+        <p className={`text text_type_main-default text_color_inactive`}>
+          {orderCard?.createdAt
+            ? formatDateToUI(orderCard?.createdAt)
+            : 'не определенно'}
         </p>
         <Price
           price={finalPrice}

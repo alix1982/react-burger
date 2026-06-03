@@ -21,11 +21,11 @@ export const ProcessingOrders = (): React.ReactNode => {
     if (orders) {
       const orderDone = orders
         .filter((item) => item.status === 'done')
-        .reverse()
+        // .reverse()
         .splice(0, 20);
       const orderPending = orders
         .filter((item) => item.status === 'pending')
-        .reverse()
+        // .reverse()
         .splice(0, 20);
       setOrderDone(orderDone);
       setOrderPending(orderPending);

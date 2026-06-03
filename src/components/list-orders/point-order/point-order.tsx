@@ -24,14 +24,6 @@ export const PointOrder = ({ order }: PointOrderProps): React.ReactNode => {
   const [finalPrice, setFinalPrice] = useState<number>(0);
 
   useEffect(() => {
-    let count = 0;
-    ingrArr.forEach((item) => {
-      count = count + item.price;
-    });
-    setFinalPrice(count);
-  }, [ingrArr]);
-
-  useEffect(() => {
     const newIngrArr: Ingriedient[] | null = [];
     let newIngr = null;
     if (order.ingredients) {
@@ -40,6 +32,14 @@ export const PointOrder = ({ order }: PointOrderProps): React.ReactNode => {
         newIngr && newIngrArr.push(newIngr);
         newIngr = null;
       });
+
+      // расчет цены бургера - TODO: вынести функцию в хелпер
+      let count = 0;
+      newIngrArr.forEach((item) => {
+        count = count + item.price;
+      });
+      setFinalPrice(count);
+
       const arr = newIngrArr.splice(0, newIngrArr.length - 1).reverse();
       setIngrArr(arr);
     }
@@ -71,18 +71,15 @@ export const PointOrder = ({ order }: PointOrderProps): React.ReactNode => {
       )}
       <div className={styles.headerPointOrder}>
         <ul className={styles.listOrdersIconIngriedients}>
-          {ingrArr
-            // .splice(ingrArr.length - 1, 1)
-            // .reverse()
-            .map((item, index) => (
-              <li key={index} className={styles.pointListOrdersIconIngriedients}>
-                <img
-                  className={styles.iconIngriedients}
-                  src={item?.image_mobile}
-                  alt="иконка"
-                />
-              </li>
-            ))}
+          {ingrArr.map((item, index) => (
+            <li key={index} className={styles.pointListOrdersIconIngriedients}>
+              <img
+                className={styles.iconIngriedients}
+                src={item?.image_mobile}
+                alt="иконка"
+              />
+            </li>
+          ))}
         </ul>
         <Price
           price={finalPrice}
