@@ -5,7 +5,11 @@ import { useParams } from 'react-router-dom';
 import { Price } from '@/share/price';
 import { useAppSelector } from '@/store/hooksStore';
 import { Singriedients, SisLoading } from '@/store/ingriedientsSlice/ingriedientsSlice';
-import { Smessages } from '@/store/socketSlice/socketSlice';
+import {
+  SerrorMesSocket,
+  SisLoadingSocket,
+  Smessages,
+} from '@/store/socketSlice/socketSlice';
 import { ORDER_DEFAULT } from '@/utils/constant';
 import { formatDateToUI } from '@/utils/helpers';
 
@@ -25,9 +29,14 @@ type IngredientWithCount = Ingriedient & {
 export const FeedOrderDetails = (): React.ReactNode => {
   const path = window.location.pathname.split('/')[1];
   const { id } = useParams();
-  const messages = useAppSelector(Smessages);
+
   const ingriedients = useAppSelector(Singriedients);
   const isLoading = useAppSelector(SisLoading);
+
+  const messages = useAppSelector(Smessages);
+  const isLoadingSocket = useAppSelector(SisLoadingSocket);
+  const errorMesSocket = useAppSelector(SerrorMesSocket);
+
   const [orderCard, setOrderCard] = useState<OrderSocket | undefined>();
   const [ingriedientsRender, setIngriedientsRender] = useState<IngredientWithCount[]>(
     []
@@ -45,51 +54,52 @@ export const FeedOrderDetails = (): React.ReactNode => {
   }, [ingriedientsRender]);
 
   useEffect(() => {
-    messages[messages.length - 1]?.orders &&
+    if (messages[messages.length - 1]?.orders && ingriedients.length > 0) {
       setOrderCard(messages[messages.length - 1].orders.find((item) => item._id === id));
 
-    const ingriedientsOrderFinal: IngredientWithCount[] | null = [];
-    let ingriedientOrderFinal: IngredientWithCount | undefined | null = null;
+      const ingriedientsOrderFinal: IngredientWithCount[] | null = [];
+      let ingriedientOrderFinal: IngredientWithCount | undefined | null = null;
 
-    if (orderCard?.ingredients) {
-      const processedIds: string[] = [];
-      const ingriedientsIdNoDuplicates: IngredientFull[] = orderCard.ingredients
-        .map((ingriedient) => {
-          // console.log(ingriedient);
-          const duplicatesArray = orderCard.ingredients.filter(
-            (item) => item === ingriedient
-          );
-          if (!processedIds.find((item) => item === ingriedient)) {
-            processedIds.push(ingriedient);
-            return {
-              id: ingriedient,
-              count: duplicatesArray.length,
-            };
+      if (orderCard?.ingredients) {
+        const processedIds: string[] = [];
+        const ingriedientsIdNoDuplicates: IngredientFull[] = orderCard.ingredients
+          .map((ingriedient) => {
+            // console.log(ingriedient);
+            const duplicatesArray = orderCard.ingredients.filter(
+              (item) => item === ingriedient
+            );
+            if (!processedIds.find((item) => item === ingriedient)) {
+              processedIds.push(ingriedient);
+              return {
+                id: ingriedient,
+                count: duplicatesArray.length,
+              };
+            }
+          })
+          .filter((item) => item !== undefined);
+
+        ingriedientsIdNoDuplicates.forEach((ingr) => {
+          ingriedientOrderFinal = ingriedients.find((item) => item._id === ingr.id);
+
+          if (ingriedientOrderFinal) {
+            ingriedientsOrderFinal.push({ ...ingriedientOrderFinal, count: ingr.count });
           }
-        })
-        .filter((item) => item !== undefined);
+          ingriedientOrderFinal = null;
+        });
 
-      ingriedientsIdNoDuplicates.forEach((ingr) => {
-        ingriedientOrderFinal = ingriedients.find((item) => item._id === ingr.id);
-
-        if (ingriedientOrderFinal) {
-          ingriedientsOrderFinal.push({ ...ingriedientOrderFinal, count: ingr.count });
-        }
-        ingriedientOrderFinal = null;
-      });
-
-      // const arrFinish = [...newIngrArr];
-      setIngriedientsRender(ingriedientsOrderFinal);
+        // const arrFinish = [...newIngrArr];
+        setIngriedientsRender(ingriedientsOrderFinal);
+      }
     }
-  }, [orderCard, ingriedients]);
+  }, [orderCard, ingriedients, messages]);
 
   if (!orderCard) {
     setOrderCard(ORDER_DEFAULT);
   }
 
   // console.log(messages);
-  // console.log(mesCard);
-  // console.log(ingrArr);
+  // console.log(ingriedients);
+  // console.log(errorMesSocket);
 
   if (isLoading) {
     return <Preloader />;
@@ -108,23 +118,29 @@ export const FeedOrderDetails = (): React.ReactNode => {
       </p>
       <p className={`text text_type_main-medium`}>Состав:</p>
       <ul className={`custom-scroll ${styles.modalFeedOrderList}`}>
-        {ingriedientsRender.map((item, index) => (
-          <li key={index} className={`${styles.modalFeedOrderPointIngriedient}`}>
-            <div className={`${styles.ingriedientContent}`}>
-              <img
-                className={styles.iconIngriedients}
-                src={item?.image_mobile}
-                alt="ингридиент"
+        {isLoadingSocket ? (
+          <p>Соединение ...</p>
+        ) : errorMesSocket ? (
+          <p>{errorMesSocket}</p>
+        ) : (
+          ingriedientsRender.map((item, index) => (
+            <li key={index} className={`${styles.modalFeedOrderPointIngriedient}`}>
+              <div className={`${styles.ingriedientContent}`}>
+                <img
+                  className={styles.iconIngriedients}
+                  src={item?.image_mobile}
+                  alt="ингридиент"
+                />
+                <p>{item.name}</p>
+              </div>
+              <Price
+                price={`${item.count} x ${item.price}`}
+                className={`text text_type_digits-default`}
+                typeIcon={'primary'}
               />
-              <p>{item.name}</p>
-            </div>
-            <Price
-              price={`${item.count} x ${item.price}`}
-              className={`text text_type_digits-default`}
-              typeIcon={'primary'}
-            />
-          </li>
-        ))}
+            </li>
+          ))
+        )}
       </ul>
       <div className={`${styles.modalFeedOrderFooter} mt-5`}>
         <p className={`text text_type_main-default text_color_inactive`}>

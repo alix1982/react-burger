@@ -9,8 +9,8 @@ import type { MessageSocket, SocketState } from '../types';
 const initialState: SocketState = {
   isConnected: false,
   messages: [],
-  errorMes: null,
-  isLoading: false,
+  errorMesSocket: null,
+  isLoadingSocket: false,
 };
 
 // export const sendingOrder = createAsyncThunk<
@@ -29,48 +29,51 @@ export const socketSlice = createSlice({
     // Управляющие редьюсеры
     connect: (state, action) => {
       console.log(action);
-      state.isLoading = true;
-      state.errorMes = null;
+      state.isLoadingSocket = true;
+      state.errorMesSocket = null;
     },
     disconnect: (state) => {
       state.isConnected = false;
       state.messages = [];
-      state.isLoading = false;
+      state.isLoadingSocket = false;
     },
     sendMessage: () => {
       // Middleware будет обрабатывать отправку - не используется в проекте
     },
     // Событийные редьюсеры
     onOpen: (state) => {
-      state.isLoading = false;
+      state.isLoadingSocket = false;
       state.isConnected = true;
-      state.errorMes = null;
+      state.errorMesSocket = null;
     },
     onMessage: (state, action: PayloadAction) => {
       state.messages.push(action.payload as unknown as MessageSocket);
     },
     onError: (state, action: PayloadAction<string>) => {
       if (typeof action.payload === 'string') {
-        state.errorMes = action.payload;
+        state.errorMesSocket = action.payload;
       }
-      state.isLoading = false;
+      state.isLoadingSocket = false;
     },
     onClose: (state) => {
       state.isConnected = false;
-      state.isLoading = false;
+      state.isLoadingSocket = false;
     },
   },
   selectors: {
     // Sorder: (state) => state.order,
-    // SisLoading: (state) => state.isLoading,
+    // SisLoadingSocket: (state) => state.isLoadingSocket,
     // SerrorMes: (state) => state.errorMes,
   },
 });
 
 export const Smessages = (state: RootState): MessageSocket[] => state.socket.messages;
-export const SisLoading = (state: RootState): boolean => state.socket.isLoading;
+export const SisLoadingSocket = (state: RootState): boolean =>
+  state.socket.isLoadingSocket;
+export const SerrorMesSocket = (state: RootState): string | null =>
+  state.socket.errorMesSocket;
 // export const SerrorMes = (state: RootState): string => state.order.errorMes;
-// export const { Sorder, SisLoading, SerrorMes } = orderSlice.selectors;
+// export const { Sorder, SisLoadingSocket, SerrorMes } = orderSlice.selectors;
 
 // Экспортируем экшены
 export const { connect, disconnect, sendMessage, onOpen, onMessage, onError, onClose } =

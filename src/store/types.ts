@@ -136,8 +136,8 @@ export type MessagesSocket = MessageSocket[];
 export type SocketState = {
   isConnected: boolean;
   messages: MessageSocket[];
-  errorMes: string | null;
-  isLoading: boolean;
+  errorMesSocket: string | null;
+  isLoadingSocket: boolean;
 };
 
 // export type FetchUserReturn = { user: Name & Email };

@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooksStore';
 import {
   connect,
   disconnect,
-  SisLoading,
+  SisLoadingSocket,
   Smessages,
 } from '@/store/socketSlice/socketSlice';
 import { SOCKET_URL_AUTH, SOCKET_URL_NO_AUTH } from '@/utils/constant';
@@ -21,7 +21,7 @@ export const ListOrders = (): React.ReactNode => {
   const token = getCookie('accessToken')?.split(' ')[1];
   const path = window.location.pathname.split('/')[1];
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(SisLoading);
+  const isLoadingSocket = useAppSelector(SisLoadingSocket);
   const messages = useAppSelector(Smessages);
   const [mes, setMes] = useState<OrderSocket[]>([]);
 
@@ -54,7 +54,7 @@ export const ListOrders = (): React.ReactNode => {
     }
   }, [messages.length, messages]);
 
-  if (isLoading) {
+  if (isLoadingSocket) {
     return <Preloader />;
   }
   // console.log(messages);
