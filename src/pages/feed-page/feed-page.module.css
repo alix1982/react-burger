@@ -1,0 +1,27 @@
+.feedPage {
+  /* display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: calc(100vw - 20px - 20px);
+  max-width: 1240px;
+  height: 100%;
+  margin: 0 auto;
+  overflow: hidden; */
+}
+
+.feedPageBlocks {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: calc(100vw - 20px - 20px);
+  max-width: 1240px;
+  height: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.title {
+  width: calc(100% - 20px - 20px);
+  margin-right: auto;
+  margin-left: auto;
+}

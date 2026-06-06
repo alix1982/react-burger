@@ -80,7 +80,7 @@ export type FetchIngriedientsReturn = { data: Ingriedient[] };
 
 // modalSlice
 export type ModalState = {
-  ingriedientCard: Ingriedient;
+  modalDataCard: Ingriedient | OrderSocket;
 };
 
 // orderSlice
@@ -108,3 +108,37 @@ export type UserState = {
 
 export type FetchUserReturn = { user: Name & Email };
 export type FetchUserArg = User;
+
+// socketSlice
+// export type MessageSocket = {
+//   id: string;
+//   text: string;
+//   timestamp: number;
+//   sender: string;
+// };
+export type OrderSocket = {
+  _id: string;
+  createdAt: string;
+  ingredients: string[];
+  name: string;
+  number: number;
+  status: string;
+  updatedAt: string;
+};
+export type MessageSocket = {
+  _id: string;
+  orders: OrderSocket[];
+  success: boolean;
+  total: number;
+  totalToday: number;
+};
+export type MessagesSocket = MessageSocket[];
+export type SocketState = {
+  isConnected: boolean;
+  messages: MessageSocket[];
+  errorMesSocket: string | null;
+  isLoadingSocket: boolean;
+};
+
+// export type FetchUserReturn = { user: Name & Email };
+// export type FetchUserArg = User;
