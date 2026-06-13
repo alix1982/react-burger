@@ -16,78 +16,83 @@ import { Layout } from '../layout/layout';
 import { Modal } from '../modal/modal';
 import { ProtectedRoute } from '../protected-route/protected-route';
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [
+    {
+      element: <Layout />,
+      children: [
+        {
+          path: '/register',
+          element: <ProtectedRoute onlyUnAuth component={<RegisterPage />} />,
+        },
+        {
+          path: '/login',
+          element: <ProtectedRoute onlyUnAuth component={<LoginPage />} />,
+        },
+        {
+          path: '/forgot-password',
+          element: <ProtectedRoute onlyUnAuth component={<ForgotPasswordPage />} />,
+        },
+        {
+          path: '/reset-password',
+          element: <ProtectedRoute onlyUnAuth component={<ResetPasswordPage />} />,
+        },
+        {
+          path: '/',
+          element: <HomePage />,
+          children: [
+            {
+              path: 'ingredients/:id',
+              element: <Modal typeModal={'ingriedient'} />,
+            },
+            {
+              path: 'order',
+              element: <Modal typeModal={'order'} />,
+            },
+          ],
+        },
+        {
+          path: '/profile',
+          element: <ProtectedRoute component={<ProfilePage />} />,
+          children: [
+            {
+              path: '',
+              element: <FormProfile />,
+            },
+            {
+              path: 'orders',
+              element: <ProfileOrder />,
+              children: [
+                {
+                  path: ':id',
+                  element: <Modal typeModal={'profileOrder'} />,
+                },
+              ],
+            },
+            {
+              path: 'exit',
+              element: <ExitProfile />,
+            },
+          ],
+        },
+        {
+          path: '/feed',
+          element: <FeedPage />,
+          children: [
+            {
+              path: ':id',
+              element: <Modal typeModal={'feedOrder'} />,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      path: '*',
+      element: <ErrorPage />,
+    },
+  ],
   {
-    element: <Layout />,
-    children: [
-      {
-        path: '/register',
-        element: <ProtectedRoute onlyUnAuth component={<RegisterPage />} />,
-      },
-      {
-        path: '/login',
-        element: <ProtectedRoute onlyUnAuth component={<LoginPage />} />,
-      },
-      {
-        path: '/forgot-password',
-        element: <ProtectedRoute onlyUnAuth component={<ForgotPasswordPage />} />,
-      },
-      {
-        path: '/reset-password',
-        element: <ProtectedRoute onlyUnAuth component={<ResetPasswordPage />} />,
-      },
-      {
-        path: '/',
-        element: <HomePage />,
-        children: [
-          {
-            path: 'ingredients/:id',
-            element: <Modal typeModal={'ingriedient'} />,
-          },
-          {
-            path: 'order',
-            element: <Modal typeModal={'order'} />,
-          },
-        ],
-      },
-      {
-        path: '/profile',
-        element: <ProtectedRoute component={<ProfilePage />} />,
-        children: [
-          {
-            path: '',
-            element: <FormProfile />,
-          },
-          {
-            path: 'orders',
-            element: <ProfileOrder />,
-            children: [
-              {
-                path: ':id',
-                element: <Modal typeModal={'profileOrder'} />,
-              },
-            ],
-          },
-          {
-            path: 'exit',
-            element: <ExitProfile />,
-          },
-        ],
-      },
-      {
-        path: '/feed',
-        element: <FeedPage />,
-        children: [
-          {
-            path: ':id',
-            element: <Modal typeModal={'feedOrder'} />,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    path: '*',
-    element: <ErrorPage />,
-  },
-]);
+    basename: '/react-burger/',
+  }
+);

@@ -46,7 +46,7 @@ export const socketSlice = createSlice({
       state.isConnected = true;
       state.errorMesSocket = null;
     },
-    onMessage: (state, action: PayloadAction) => {
+    onMessage: (state, action: PayloadAction<MessageSocket>) => {
       state.messages.push(action.payload as unknown as MessageSocket);
     },
     onError: (state, action: PayloadAction<string>) => {

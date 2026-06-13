@@ -150,6 +150,7 @@ export const Modal = ({ typeModal = 'default' }: ModalProps): React.ReactNode =>
           <h2 className={`text text_type_main-large ${styles.heading}`}>
             <span>{modalData[typeModal]?.heading}</span>
             <button
+              id="button_close"
               className={styles.closeButton}
               onClick={modalData[typeModal]?.onClose}
             >

@@ -15,7 +15,7 @@ export const BurgerConstructorList = (): React.ReactNode => {
           ingriedientsUser[0]?.type === 'bunDefault') && (
           <BurgerConstructorPoint index={0} ingredient={ingriedientsUser[0]} />
         )}
-      <ul className={`custom-scroll ${styles.list}`}>
+      <ul id="burgerConstructorList" className={`custom-scroll ${styles.list}`}>
         {ingriedientsUser?.length > 1 &&
           ingriedientsUser.map((ingredient, index) => {
             if (index !== 0) {
