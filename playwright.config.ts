@@ -71,11 +71,11 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   // Автоматически запускаем Vite перед тестами
-  //   command: 'npm run dev -- --host --port 5173',
-  //   url: 'http://localhost:5173/react-burger',
-  //   reuseExistingServer: true,
-  //   // reuseExistingServer: !process.env.CI,
-  // },
+  webServer: {
+    // Автоматически запускаем Vite перед тестами
+    command: 'npm run dev -- --host --port 5173',
+    url: 'http://localhost:5173/react-burger',
+    // reuseExistingServer: true,
+    reuseExistingServer: !process.env.CI,
+  },
 });

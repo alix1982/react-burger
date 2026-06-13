@@ -328,8 +328,13 @@ test('заполнение конструктора, с возможным ре�
 
   // 10. ФИНАЛЬНЫЕ ПРОВЕРКИ
   console.log('>>> ЭТАП 9: Проверка перехода на страницу заказа (/order)');
+  await page.screenshot({ path: 'debug-before-check.png' });
+  console.log('Current URL:', page.url());
+  console.log('Page content preview:', await page.textContent('body'));
   await expect(page).toHaveURL(/\/react-burger\/order$/, { timeout: 10000 });
   console.log('>>> Успешно перешли на /order. Текущий URL =', page.url());
+  // await expect(page.getByText('идентификатор заказа')).toBeVisible({ timeout: 30000 });
+  // console.log('>>> Модальное окно видно. Заказ оформлен.');
 
   console.log('>>> ЭТАП 10: Проверка появления модального окна заказа');
   await expect(page.getByRole('dialog')).toBeVisible();
