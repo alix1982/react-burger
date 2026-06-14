@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 // import * as path from 'path';
 
 const TOKEN =
-  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZWUyNDgxNDFjZmY1MDAxYjZlMjhjNiIsImlhdCI6MTc4MTM1MjIyNSwiZXhwIjoxNzgxMzUzNDI1fQ.wSvhX9ZiwKn4m-LZIcoLNOZ2YmoxZBCnIUUceU0cXVI';
+  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZWUyNDgxNDFjZmY1MDAxYjZlMjhjNiIsImlhdCI6MTc4MTQyNjk0MCwiZXhwIjoxNzgxNDI4MTQwfQ.kcRNWDX_77PscGwJCHqovtSDObv8Rt_Ty1FEErKKcFo';
 
 test('example', async ({ page }) => {
   // console.log('TEST -> example');
@@ -328,13 +328,15 @@ test('заполнение конструктора, с возможным ре�
 
   // 10. ФИНАЛЬНЫЕ ПРОВЕРКИ
   console.log('>>> ЭТАП 9: Проверка перехода на страницу заказа (/order)');
-  await page.screenshot({ path: 'debug-before-check.png' });
-  console.log('Current URL:', page.url());
-  console.log('Page content preview:', await page.textContent('body'));
+  // await page.screenshot({ path: 'debug-before-check.png' });
+  // console.log('Current URL:', page.url());
+  // console.log('Page content preview:', await page.textContent('body'));
+
+  // const currentUrl = page.url();
+  // console.log('Current URL:', currentUrl);
+  // if (currentUrl.endsWith('/react-burger/order')) {
   await expect(page).toHaveURL(/\/react-burger\/order$/, { timeout: 10000 });
   console.log('>>> Успешно перешли на /order. Текущий URL =', page.url());
-  // await expect(page.getByText('идентификатор заказа')).toBeVisible({ timeout: 30000 });
-  // console.log('>>> Модальное окно видно. Заказ оформлен.');
 
   console.log('>>> ЭТАП 10: Проверка появления модального окна заказа');
   await expect(page.getByRole('dialog')).toBeVisible();
@@ -347,6 +349,7 @@ test('заполнение конструктора, с возможным ре�
   // console.log('>>> Кнопка закрытия модалки найдена');
   await closeButton.click();
   // console.log('>>> Клик по кнопке закрытия модалки выполнен');
+  // }
 
   // console.log(
   //   '>>> ЭТАП 11: Проверка возврата на главную страницу после закрытия модалки'
