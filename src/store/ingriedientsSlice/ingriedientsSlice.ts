@@ -21,7 +21,7 @@ export const receivingIngridients = createAsyncThunk<
   return response.data;
 });
 
-const initialState: IngridientsState = {
+export const initialState: IngridientsState = {
   ingriedients: [],
   // ingridientCard: {},
   isLoading: false,

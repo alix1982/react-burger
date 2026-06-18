@@ -6,7 +6,7 @@ import type { RootState } from '..';
 import type { MessageSocket, SocketState } from '../types';
 
 // Начальное состояние
-const initialState: SocketState = {
+export const initialState: SocketState = {
   isConnected: false,
   messages: [],
   errorMesSocket: null,

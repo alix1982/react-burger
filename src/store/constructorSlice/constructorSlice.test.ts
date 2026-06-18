@@ -1,10 +1,9 @@
-// import { nanoid } from '@reduxjs/toolkit';
 import { nanoid } from 'nanoid';
 import { describe, it, expect } from 'vitest';
 
 import { BUN_DEFAULT } from '@/utils/constant';
 
-import { constructorSlice } from './constructorSlice';
+import { constructorSlice, initialState } from './constructorSlice';
 
 import type { ConstructorState, Ingriedient } from '../types';
 
@@ -36,17 +35,12 @@ const mockState = (ingredients: Ingriedient[]): ConstructorState => ({
 describe('constructorSlice', () => {
   it('должен возвращать начальное состояние', () => {
     const result = constructorSlice.reducer(undefined, { type: '' });
-    expect(result).toEqual({
-      ingriedientsUser: BUN_DEFAULT,
-      isLoadingConstructor: false,
-      errorMes: '',
-    });
+    expect(result).toEqual(initialState);
   });
 });
 
 describe('constructorSlice - setIngriedientsUser', () => {
   it('должен добавить uuid к каждому ингредиенту через prepare', () => {
-    // const startState = { ingriedientsUser: [] };
     const ingredients = [
       createIngredient('bun', 'Булка'),
       createIngredient('ingredient', 'Котлета'),
@@ -62,11 +56,6 @@ describe('constructorSlice - setIngriedientsUser', () => {
   });
 
   it('при длине > 2 должен отфильтровать ингредиенты с type === "ingriedientDefault"', () => {
-    // const startState: ConstructorState = {
-    //   ingriedientsUser: BUN_DEFAULT,
-    //   isLoadingConstructor: false,
-    //   errorMes: '',
-    // };
     const startState = mockState([]);
 
     const ingredients = [
@@ -95,11 +84,6 @@ describe('constructorSlice - setIngriedientsUser', () => {
   });
 
   it('при длине <= 2 не должен фильтровать ингредиенты, даже если они ingriedientDefault', () => {
-    // const startState: ConstructorState = {
-    //   ingriedientsUser: BUN_DEFAULT,
-    //   isLoadingConstructor: false,
-    //   errorMes: '',
-    // };
     const startState = mockState([]);
     const ingredients = [
       createIngredient('ingriedientDefault', 'Default 2'),
@@ -119,11 +103,6 @@ describe('constructorSlice - setIngriedientsUser', () => {
   });
 
   it('должен корректно обрабатывать пустой массив', () => {
-    // const startState: ConstructorState = {
-    //   ingriedientsUser: BUN_DEFAULT,
-    //   isLoadingConstructor: false,
-    //   errorMes: '',
-    // };
     const startState = mockState([]);
     const ingredients: Ingriedient[] = [];
 
@@ -136,11 +115,6 @@ describe('constructorSlice - setIngriedientsUser', () => {
   });
 
   it('должен сохранять порядок ингредиентов после обработки', () => {
-    // const startState: ConstructorState = {
-    //   ingriedientsUser: BUN_DEFAULT,
-    //   isLoadingConstructor: false,
-    //   errorMes: '',
-    // };
     const startState = mockState([]);
 
     const ingredients = [
@@ -164,12 +138,6 @@ describe('constructorSlice - setIngriedientsUser', () => {
 });
 
 describe('constructorSlice - deleteIngridient', () => {
-  // const mockState = (ingredients: Ingriedient[]): ConstructorState => ({
-  //   ingriedientsUser: ingredients,
-  //   isLoadingConstructor: false,
-  //   errorMes: '',
-  // });
-
   it('должен удалить ингредиент по индексу', () => {
     const startIngredients = [
       createIngredient('bun', 'Булка 1', 0),
@@ -261,11 +229,6 @@ describe('constructorSlice - deleteIngridient', () => {
   });
 
   it('обрабатывает пустой массив: сразу добавляет BUN_DEFAULT[1]', () => {
-    // const startState = {
-    //   ingriedientsUser: [],
-    //   isLoadingConstructor: false,
-    //   errorMes: '',
-    // };
     const startState = mockState([]);
 
     const result = constructorSlice.reducer(

@@ -1,27 +1,18 @@
 import { describe, it, expect } from 'vitest';
 
-import { authSlice, clearErrorMesAuth, setIsAuthChecked } from './authSlice';
+import {
+  authSlice,
+  clearErrorMesAuth,
+  initialState,
+  setIsAuthChecked,
+} from './authSlice';
 
 import type { AuthState } from '../types';
 
 describe('authSlice', () => {
   it('должен возвращать начальное состояние', () => {
     const result = authSlice.reducer(undefined, { type: '' });
-    expect(result).toEqual({
-      isAuthChecked: false,
-      user: null,
-      isLoadingRegister: false,
-      errorRegister: '',
-      isLoadingLogin: false,
-      errorLogin: '',
-      isLoadingForgotPassword: false,
-      errorForgotPassword: '',
-      isLoadingResetPassword: false,
-      errorResetPassword: '',
-      textLogout: '',
-      isLoadingLogout: false,
-      errorLogout: '',
-    });
+    expect(result).toEqual(initialState);
   });
 
   it('сброс всех сообщений об ошибках - clearErrorMesAuth', () => {
@@ -51,22 +42,7 @@ describe('authSlice', () => {
   });
 
   it('изменение статуса авторизации', () => {
-    const startState: AuthState = {
-      isAuthChecked: false,
-      user: null,
-      isLoadingRegister: false,
-      errorRegister: '',
-      isLoadingLogin: false,
-      errorLogin: '',
-      // textForgotPassword: '',
-      isLoadingForgotPassword: false,
-      errorForgotPassword: '',
-      isLoadingResetPassword: false,
-      errorResetPassword: '',
-      textLogout: '',
-      isLoadingLogout: false,
-      errorLogout: '',
-    };
+    const startState: AuthState = initialState;
     const result = authSlice.reducer(startState, setIsAuthChecked(true));
     expect(result.isAuthChecked).toBe(true);
   });

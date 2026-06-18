@@ -115,7 +115,7 @@ export default defineConfig([
       'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
-          project: './tsconfig.app.json',
+          project: './tsconfig.json',
         },
       },
     },
@@ -141,7 +141,9 @@ export default defineConfig([
       parser: tseslint.parser,
       parserOptions: {
         ecmaFeatures: { jsx: true },
-        project: './tsconfig.app.json',
+        // project: './tsconfig.json',
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
         warnOnUnsupportedTypeScriptVersion: false,
       },
     },
@@ -191,7 +193,7 @@ export default defineConfig([
     settings: {
       'import/resolver': {
         typescript: {
-          project: './tsconfig.app.json',
+          project: './tsconfig.json',
         },
       },
     },

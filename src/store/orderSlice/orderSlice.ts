@@ -13,11 +13,6 @@ import type {
   OrderState,
 } from '../types';
 
-const initialState: OrderState = {
-  order: {},
-  isLoading: false,
-  errorMes: '',
-};
 export const sendingOrder = createAsyncThunk<
   FetchOrderReturn,
   FetchOrderArg,
@@ -26,6 +21,12 @@ export const sendingOrder = createAsyncThunk<
   const response = await postOrder(ingriedientsUser);
   return response.data;
 });
+
+export const initialState: OrderState = {
+  order: {},
+  isLoading: false,
+  errorMes: '',
+};
 
 export const orderSlice = createSlice({
   name: 'order',

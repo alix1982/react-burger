@@ -1,6 +1,6 @@
 {
   "name": "vite_bundler",
-  "homepage": "https://kaa-it-js.github.io/react-burger-js-starter/",
+  "homepage": "https://alix1982.github.io/react-burger/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
-    "@playwright/test": "^1.60.0",
+    "@playwright/test": "^1.40.0",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",

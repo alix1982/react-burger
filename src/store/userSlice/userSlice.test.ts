@@ -1,24 +1,19 @@
 import { describe, it, expect } from 'vitest';
 
-import { clearErrorMesUser, setUser, userSlice } from './userSlice';
+import { clearErrorMesUser, initialState, setUser, userSlice } from './userSlice';
 // import { clearErrorMesUser, setUser } from './userSlice';
 
 describe('userSlice', () => {
   it('должен возвращать начальное состояние', () => {
     const result = userSlice.reducer(undefined, { type: '' });
-    expect(result).toEqual({
-      user: null,
-      isLoadingGetUser: false,
-      errorGetUser: '',
-      isLoadingPatchUser: false,
-      errorPatchUser: '',
-    });
+    expect(result).toEqual(initialState);
   });
 
   it('сбрасываем ошибки', () => {
     const startState = {
       errorGetUser: 'errorGet',
       errorPatchUser: 'errorPatch',
+
       user: null,
       isLoadingGetUser: false,
       isLoadingPatchUser: false,
@@ -29,13 +24,7 @@ describe('userSlice', () => {
   });
 
   it('меняем данные пользователя', () => {
-    const startState = {
-      user: null,
-      isLoadingGetUser: false,
-      errorGetUser: '',
-      isLoadingPatchUser: false,
-      errorPatchUser: '',
-    };
+    const startState = initialState;
 
     const newUser = {
       name: 'UserTest',

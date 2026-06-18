@@ -10,7 +10,7 @@ import { BUN_DEFAULT } from '@/utils/constant';
 import type { RootState } from '..';
 import type { ConstructorState, Ingriedient } from '../types';
 
-const initialState: ConstructorState = {
+export const initialState: ConstructorState = {
   ingriedientsUser: BUN_DEFAULT,
   isLoadingConstructor: false,
   errorMes: '',

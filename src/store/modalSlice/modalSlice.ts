@@ -5,7 +5,7 @@ import { BUN_DEFAULT } from '@/utils/constant';
 import type { RootState } from '..';
 import type { Ingriedient, ModalState, OrderSocket } from '../types';
 
-const initialState: ModalState = {
+export const initialState: ModalState = {
   modalDataCard: BUN_DEFAULT[0],
 };
 

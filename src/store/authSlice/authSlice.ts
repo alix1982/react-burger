@@ -76,7 +76,7 @@ export const logout = createAsyncThunk<
   return response.data;
 });
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   isAuthChecked: false,
   user: null,
   isLoadingRegister: false,

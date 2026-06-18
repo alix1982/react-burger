@@ -5,7 +5,7 @@ import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = (): React.ReactNode => {
   return (
-    <section className={styles.burger_constructor}>
+    <section id="main-constructor" className={styles.burger_constructor}>
       <BurgerConstructorList />
       <BurgerConstructorFinalPrice />
     </section>
