@@ -36,3 +36,6 @@
 		'@utils': path.resolve(__dirname, './src/utils'),
 	},
 ```
+[деплой проекта](https://alix1982.github.io/react-burger/)
+
+для интеграционного тестирования нужно запустить дев-сервер и подставить рабочий токен в example.spec.ts в const TOKEN = ...

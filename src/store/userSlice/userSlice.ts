@@ -39,7 +39,7 @@ export const changeUser = createAsyncThunk<
   return response.data;
 });
 
-const initialState: UserState = {
+export const initialState: UserState = {
   user: null,
   isLoadingGetUser: false,
   errorGetUser: '',
